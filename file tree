@@ -1,0 +1,18 @@
+fintech-dashboard/
+├─ package.json
+├─ next.config.js
+├─ vercel.json
+├─ tailwind.config.js
+├─ postcss.config.js
+├─ .gitignore
+├─ styles/
+│  └─ globals.css
+├─ lib/
+│  └─ rssFetcher.js
+├─ components/
+│  ├─ Column.jsx
+│  └─ Card.jsx
+├─ pages/
+│  ├─ index.jsx
+│  └─ api/
+│     └─ cron.js
