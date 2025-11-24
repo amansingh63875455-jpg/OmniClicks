@@ -1,5 +1,4 @@
 import Parser from 'rss-parser';
-import { generateSummary } from './ai-summarizer';
 
 export interface NewsItem {
     title: string;
@@ -49,20 +48,20 @@ const HISTORY_DB: Record<string, { title: string; year: string; description: str
         { title: 'New York Stock Exchange Crash', year: '1929', description: 'Black Tuesday marked the most devastating stock market crash in US history' }
     ],
     '11-24': [
-        { title: 'PayPal Goes Public', year: '2002', description: 'PayPal Holdings Inc. completed its IPO on NASDAQ, revolutionizing online payments' },
-        { title: 'First Bitcoin ATM Installed', year: '2013', description: 'The world\'s first Bitcoin ATM was installed in Vancouver, Canada' },
-        { title: 'Stripe Founded', year: '2010', description: 'Patrick and John Collison founded Stripe to simplify online payment processing' },
-        { title: 'Square Inc. Founded', year: '2009', description: 'Jack Dorsey and Jim McKelvey founded Square to enable mobile payments' },
-        { title: 'Venmo Launched', year: '2009', description: 'Venmo was launched as a peer-to-peer payment app, later acquired by PayPal' },
-        { title: 'Robinhood Founded', year: '2013', description: 'Robinhood Markets was founded to democratize finance for all' },
-        { title: 'Coinbase Founded', year: '2012', description: 'Brian Armstrong and Fred Ehrsam founded Coinbase, the largest US cryptocurrency exchange' },
-        { title: 'Revolut Launched', year: '2015', description: 'Revolut was launched in the UK as a digital banking alternative' },
-        { title: 'Wise (TransferWise) Founded', year: '2011', description: 'Wise was founded to provide transparent international money transfers' },
-        { title: 'Plaid Founded', year: '2013', description: 'Plaid was founded to connect fintech applications to users\' bank accounts' }
+        { title: 'PayPal Goes Public', year: '2002', description: 'PayPal Holdings Inc. completed its IPO on NASDAQ, revolutionizing online payments. The company transformed how people send and receive money online, making digital payments accessible to millions worldwide.' },
+        { title: 'First Bitcoin ATM Installed', year: '2013', description: 'The world\'s first Bitcoin ATM was installed in Vancouver, Canada, marking a significant milestone in cryptocurrency adoption. This machine allowed users to exchange cash for Bitcoin instantly, bridging the gap between traditional and digital currency.' },
+        { title: 'Stripe Founded', year: '2010', description: 'Patrick and John Collison founded Stripe to simplify online payment processing for businesses of all sizes. The platform revolutionized e-commerce by making it easy for developers to integrate payment systems into their websites and applications.' },
+        { title: 'Square Inc. Founded', year: '2009', description: 'Jack Dorsey and Jim McKelvey founded Square to enable mobile payments for small businesses. The company\'s card reader transformed smartphones into payment terminals, democratizing access to credit card processing.' },
+        { title: 'Venmo Launched', year: '2009', description: 'Venmo was launched as a peer-to-peer payment app that made splitting bills and sending money to friends as easy as sending a text message. Later acquired by PayPal, it became one of the most popular payment apps among millennials.' },
+        { title: 'Robinhood Founded', year: '2013', description: 'Robinhood Markets was founded to democratize finance for all by offering commission-free stock trading. The platform disrupted the brokerage industry and made investing accessible to a new generation of retail investors.' },
+        { title: 'Coinbase Founded', year: '2012', description: 'Brian Armstrong and Fred Ehrsam founded Coinbase, which became the largest cryptocurrency exchange in the United States. The platform made buying, selling, and storing cryptocurrencies simple and secure for mainstream users.' },
+        { title: 'Revolut Launched', year: '2015', description: 'Revolut was launched in the UK as a digital banking alternative offering multi-currency accounts, cryptocurrency trading, and budgeting tools. The fintech unicorn expanded rapidly across Europe and beyond.' },
+        { title: 'Wise (TransferWise) Founded', year: '2011', description: 'Wise was founded to provide transparent international money transfers at the real exchange rate. The company disrupted traditional banks by offering significantly lower fees for cross-border payments.' },
+        { title: 'Plaid Founded', year: '2013', description: 'Plaid was founded to connect fintech applications to users\' bank accounts securely. The company\'s API infrastructure powers thousands of financial apps, enabling seamless data sharing between banks and third-party services.' }
     ],
     '12-12': [
-        { title: 'Apple IPO', year: '1980', description: 'Apple Computer went public at $22 per share, creating instant millionaires among employees' },
-        { title: 'First Credit Card Introduced', year: '1950', description: 'Diners Club introduced the first modern credit card' }
+        { title: 'Apple IPO', year: '1980', description: 'Apple Computer went public at $22 per share, creating instant millionaires among employees and early investors. The IPO was one of the most successful in history at the time.' },
+        { title: 'First Credit Card Introduced', year: '1950', description: 'Diners Club introduced the first modern credit card, revolutionizing how people pay for goods and services' }
     ]
 };
 
@@ -76,14 +75,44 @@ async function fetchFeed(url: string, source: string, category: NewsItem['catego
         ]);
 
         console.log(`Successfully fetched ${source}: ${res.items.length} items`);
-        return res.items.map(item => ({
-            title: item.title || 'No Title',
-            link: item.link || '#',
-            pubDate: item.pubDate || new Date().toISOString(),
-            contentSnippet: (item.contentSnippet || item.content || '').slice(0, 800) + '...',
-            source: source,
-            category: category
-        }));
+
+        // Extract full content including description and content:encoded
+        return res.items.map(item => {
+            let fullContent = '';
+
+            // Try to get the most complete content available
+            if (item['content:encoded']) {
+                fullContent = item['content:encoded'];
+            } else if (item.content) {
+                fullContent = item.content;
+            } else if (item.contentSnippet) {
+                fullContent = item.contentSnippet;
+            } else if (item.description) {
+                fullContent = item.description;
+            }
+
+            // Remove HTML tags and clean up
+            const cleanContent = fullContent
+                .replace(/<[^>]*>/g, '') // Remove HTML tags
+                .replace(/&nbsp;/g, ' ')
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            // Take up to 2000 characters for a comprehensive summary
+            const contentSnippet = cleanContent.slice(0, 2000) + (cleanContent.length > 2000 ? '...' : '');
+
+            return {
+                title: item.title || 'No Title',
+                link: item.link || '#',
+                pubDate: item.pubDate || new Date().toISOString(),
+                contentSnippet: contentSnippet || 'No description available.',
+                source: source,
+                category: category
+            };
+        });
     } catch (e) {
         console.error(`Error fetching ${source} (${url}):`, e);
         return [];
@@ -93,21 +122,7 @@ async function fetchFeed(url: string, source: string, category: NewsItem['catego
 export async function getNews(): Promise<NewsItem[]> {
     const promises = FEEDS.news.map(f => fetchFeed(f.url, f.source, 'news'));
     const results = await Promise.all(promises);
-    const sortedNews = results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, 10);
-
-    // Generate AI summaries for news items
-    console.log('Generating AI summaries for news items...');
-    const newsWithSummaries = await Promise.all(
-        sortedNews.map(async (item) => {
-            const aiSummary = await generateSummary(item.link, item.title, item.contentSnippet);
-            return {
-                ...item,
-                contentSnippet: aiSummary
-            };
-        })
-    );
-
-    return newsWithSummaries;
+    return results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, 10);
 }
 
 export async function getHackathons(): Promise<NewsItem[]> {
@@ -126,16 +141,16 @@ export async function getHistory(): Promise<NewsItem[]> {
     const today = new Date();
     const key = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     const events = HISTORY_DB[key] || [
-        { title: 'PayPal Goes Public', year: '2002', description: 'PayPal Holdings Inc. completed its IPO on NASDAQ, revolutionizing online payments' },
-        { title: 'First Bitcoin ATM Installed', year: '2013', description: 'The world\'s first Bitcoin ATM was installed in Vancouver, Canada' },
-        { title: 'Stripe Founded', year: '2010', description: 'Patrick and John Collison founded Stripe to simplify online payment processing' },
-        { title: 'Square Inc. Founded', year: '2009', description: 'Jack Dorsey and Jim McKelvey founded Square to enable mobile payments' },
-        { title: 'Venmo Launched', year: '2009', description: 'Venmo was launched as a peer-to-peer payment app, later acquired by PayPal' },
-        { title: 'Robinhood Founded', year: '2013', description: 'Robinhood Markets was founded to democratize finance for all' },
-        { title: 'Coinbase Founded', year: '2012', description: 'Brian Armstrong and Fred Ehrsam founded Coinbase, the largest US cryptocurrency exchange' },
-        { title: 'Revolut Launched', year: '2015', description: 'Revolut was launched in the UK as a digital banking alternative' },
-        { title: 'Wise (TransferWise) Founded', year: '2011', description: 'Wise was founded to provide transparent international money transfers' },
-        { title: 'Plaid Founded', year: '2013', description: 'Plaid was founded to connect fintech applications to users\' bank accounts' }
+        { title: 'PayPal Goes Public', year: '2002', description: 'PayPal Holdings Inc. completed its IPO on NASDAQ, revolutionizing online payments. The company transformed how people send and receive money online, making digital payments accessible to millions worldwide.' },
+        { title: 'First Bitcoin ATM Installed', year: '2013', description: 'The world\'s first Bitcoin ATM was installed in Vancouver, Canada, marking a significant milestone in cryptocurrency adoption. This machine allowed users to exchange cash for Bitcoin instantly.' },
+        { title: 'Stripe Founded', year: '2010', description: 'Patrick and John Collison founded Stripe to simplify online payment processing for businesses of all sizes. The platform revolutionized e-commerce by making it easy for developers to integrate payment systems.' },
+        { title: 'Square Inc. Founded', year: '2009', description: 'Jack Dorsey and Jim McKelvey founded Square to enable mobile payments for small businesses. The company\'s card reader transformed smartphones into payment terminals, democratizing access to credit card processing.' },
+        { title: 'Venmo Launched', year: '2009', description: 'Venmo was launched as a peer-to-peer payment app that made splitting bills and sending money to friends as easy as sending a text message. Later acquired by PayPal, it became one of the most popular payment apps.' },
+        { title: 'Robinhood Founded', year: '2013', description: 'Robinhood Markets was founded to democratize finance for all by offering commission-free stock trading. The platform disrupted the brokerage industry and made investing accessible to a new generation.' },
+        { title: 'Coinbase Founded', year: '2012', description: 'Brian Armstrong and Fred Ehrsam founded Coinbase, which became the largest cryptocurrency exchange in the United States. The platform made buying, selling, and storing cryptocurrencies simple and secure.' },
+        { title: 'Revolut Launched', year: '2015', description: 'Revolut was launched in the UK as a digital banking alternative offering multi-currency accounts, cryptocurrency trading, and budgeting tools. The fintech unicorn expanded rapidly across Europe.' },
+        { title: 'Wise (TransferWise) Founded', year: '2011', description: 'Wise was founded to provide transparent international money transfers at the real exchange rate. The company disrupted traditional banks by offering significantly lower fees for cross-border payments.' },
+        { title: 'Plaid Founded', year: '2013', description: 'Plaid was founded to connect fintech applications to users\' bank accounts securely. The company\'s API infrastructure powers thousands of financial apps, enabling seamless data sharing.' }
     ];
 
     return events.map(e => ({
