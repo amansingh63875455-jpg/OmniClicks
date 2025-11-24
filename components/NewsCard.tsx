@@ -29,12 +29,12 @@ export default function NewsCard({ item }: { item: NewsItem }) {
                     <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition-colors" />
                 </div>
 
-                <h3 className="text-lg font-semibold text-slate-100 mb-2 line-clamp-2 group-hover:text-blue-200 transition-colors">
+                <h3 className="text-lg font-semibold text-slate-100 mb-3 group-hover:text-blue-200 transition-colors">
                     {item.title}
                 </h3>
 
-                <p className="text-sm text-slate-400 mb-4 line-clamp-3">
-                    {item.contentSnippet.replace(/<[^>]*>?/gm, '')}
+                <p className="text-sm text-slate-400 mb-4 leading-relaxed whitespace-pre-wrap">
+                    {item.contentSnippet.replace(/\<[^\>]*\>?/gm, '')}
                 </p>
 
                 <div className="flex items-center text-xs text-slate-500">
