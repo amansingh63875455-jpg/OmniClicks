@@ -1,4 +1,5 @@
 import Parser from 'rss-parser';
+import { generateSummary } from './ai-summarizer';
 
 export interface NewsItem {
     title: string;
@@ -92,7 +93,21 @@ async function fetchFeed(url: string, source: string, category: NewsItem['catego
 export async function getNews(): Promise<NewsItem[]> {
     const promises = FEEDS.news.map(f => fetchFeed(f.url, f.source, 'news'));
     const results = await Promise.all(promises);
-    return results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, 10);
+    const sortedNews = results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, 10);
+
+    // Generate AI summaries for news items
+    console.log('Generating AI summaries for news items...');
+    const newsWithSummaries = await Promise.all(
+        sortedNews.map(async (item) => {
+            const aiSummary = await generateSummary(item.link, item.title, item.contentSnippet);
+            return {
+                ...item,
+                contentSnippet: aiSummary
+            };
+        })
+    );
+
+    return newsWithSummaries;
 }
 
 export async function getHackathons(): Promise<NewsItem[]> {
