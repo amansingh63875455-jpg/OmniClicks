@@ -68,19 +68,19 @@ async function fetchFeed(url: string, source: string, category: NewsItem['catego
 export async function getNews(): Promise<NewsItem[]> {
     const promises = FEEDS.news.map(f => fetchFeed(f.url, f.source, 'news'));
     const results = await Promise.all(promises);
-    return results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, 20);
+    return results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, 10);
 }
 
 export async function getHackathons(): Promise<NewsItem[]> {
     const promises = FEEDS.hackathon.map(f => fetchFeed(f.url, f.source, 'hackathon'));
     const results = await Promise.all(promises);
-    return results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, 10);
+    return results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, 5);
 }
 
 export async function getJobs(): Promise<NewsItem[]> {
     const promises = FEEDS.job.map(f => fetchFeed(f.url, f.source, 'job'));
     const results = await Promise.all(promises);
-    return results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, 10);
+    return results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, 5);
 }
 
 export async function getHistory(): Promise<NewsItem[]> {
@@ -97,6 +97,6 @@ export async function getHistory(): Promise<NewsItem[]> {
         pubDate: new Date().toISOString(),
         contentSnippet: e.year ? `Happened in ${e.year}` : 'Historical Event',
         source: 'FinHistory',
-        category: 'history'
-    }));
+        category: 'history' as const
+    }) as NewsItem).slice(0, 10);
 }
