@@ -30,7 +30,7 @@ export default async function Home() {
               </p>
             </div>
           </div>
-          <div className="text-right text-xs text-slate-600 font-mono hidden md:block">
+          <div className="text-right text-xs text-slate-600 font-mono hidden md:block">{/* Trigger redeploy v2ck */}
             <div className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
               {new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
