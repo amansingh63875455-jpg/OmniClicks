@@ -17,6 +17,10 @@ type Tab = 'news' | 'history' | 'hackathons' | 'jobs';
 export default function DashboardTabs({ news, history, hackathons, jobs }: DashboardTabsProps) {
     const [activeTab, setActiveTab] = useState<Tab>('news');
 
+    React.useEffect(() => {
+        console.log('DashboardTabs mounted, activeTab:', activeTab);
+    }, [activeTab]);
+
     const tabs = [
         { id: 'news', label: 'Latest News', icon: Newspaper },
         { id: 'history', label: 'Market History', icon: History },
