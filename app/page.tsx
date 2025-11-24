@@ -1,5 +1,5 @@
 import { getNews, getHistory, getHackathons, getJobs } from '@/lib/rss';
-import DashboardTabs from '@/components/DashboardTabs';
+import TabsContainer from '@/components/TabsContainer';
 import Footer from '@/components/Footer';
 
 export const dynamic = 'force-dynamic';
@@ -23,21 +23,21 @@ export default async function Home() {
               OmniClicks Fintech
             </h1>
             <div className="flex items-center gap-3 mt-1">
-              <p className="text-slate-500 text-sm">Daily Intelligence Dashboard <span className="text-xs text-blue-500 font-mono ml-2">[v2.0 Tabs]</span></p>
+              <p className="text-slate-500 text-sm">Daily Intelligence Dashboard <span className="text-xs text-blue-500 font-mono ml-2">[v2.1 Tabs Fixed]</span></p>
               <span className="text-xs text-slate-700">•</span>
               <p className="text-xs text-slate-600 font-mono">
                 Last updated: {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </p>
             </div>
           </div>
-          <div className="text-right text-xs text-slate-600 font-mono hidden md:block">{/* Trigger redeploy v2ck */}
+          <div className="text-right text-xs text-slate-600 font-mono hidden md:block">{/* Trigger redeploy v3 */}
             <div className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
               {new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
           </div>
         </header>
 
-        <DashboardTabs
+        <TabsContainer
           news={news}
           history={history}
           hackathons={hackathons}

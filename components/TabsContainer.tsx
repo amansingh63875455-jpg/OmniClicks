@@ -14,11 +14,11 @@ interface DashboardTabsProps {
 
 type Tab = 'news' | 'history' | 'hackathons' | 'jobs';
 
-export default function DashboardTabs({ news, history, hackathons, jobs }: DashboardTabsProps) {
+export default function TabsContainer({ news, history, hackathons, jobs }: DashboardTabsProps) {
     const [activeTab, setActiveTab] = useState<Tab>('news');
 
     React.useEffect(() => {
-        console.log('DashboardTabs mounted, activeTab:', activeTab);
+        console.log('TabsContainer mounted, activeTab:', activeTab);
     }, [activeTab]);
 
     const tabs = [
