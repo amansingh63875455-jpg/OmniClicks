@@ -16,8 +16,8 @@ export default async function Home() {
   ]);
 
   return (
-    <main className="h-screen bg-slate-950 text-slate-200 font-sans selection:bg-blue-500/30 flex flex-col overflow-hidden">
-      <div className="flex-1 flex flex-col max-w-[1920px] mx-auto w-full p-4 md:p-6 min-h-0">
+    <main className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-blue-500/30 flex flex-col overflow-y-auto">
+      <div className="flex flex-col max-w-[1920px] mx-auto w-full p-4 md:p-6">
         <header className="mb-6 flex items-center justify-between shrink-0">
           <div>
             <h1 className="text-3xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 tracking-tight">
