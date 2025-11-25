@@ -2,6 +2,7 @@ import React from 'react';
 import { NewsItem } from '@/lib/rss';
 import { ExternalLink, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
+import { truncate } from '@/utils/truncate';
 
 export default function NewsCard({ item }: { item: NewsItem }) {
     // Safe date formatting
@@ -27,19 +28,6 @@ export default function NewsCard({ item }: { item: NewsItem }) {
                         {item.source}
                     </span>
                     <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition-colors" />
-                </div>
-
-                <h3 className="text-lg font-semibold text-slate-100 mb-3 group-hover:text-blue-200 transition-colors">
-                    {item.title}
-                </h3>
-
-                <p className="text-sm text-slate-400 mb-4 leading-relaxed whitespace-pre-wrap">
-                    {item.contentSnippet.replace(/\<[^\>]*\>?/gm, '')}
-                </p>
-
-                <div className="flex items-center text-xs text-slate-500">
-                    <Calendar className="w-3 h-3 mr-1" />
-                    {item.category === 'history' ? 'On this day' : dateStr}
                 </div>
             </div>
         </a>

@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import { NewsItem } from '@/lib/rss';
 import Column from './Column';
@@ -17,9 +15,21 @@ type Tab = 'news' | 'history' | 'hackathons' | 'jobs';
 export default function TabsContainer({ news, history, hackathons, jobs }: DashboardTabsProps) {
     const [activeTab, setActiveTab] = useState<Tab>('news');
 
-    React.useEffect(() => {
-        console.log('TabsContainer mounted, activeTab:', activeTab);
-    }, [activeTab]);
+    // Filter out future-dated news items
+    const now = new Date();
+    const filteredNews = news.filter(item => {
+        const date = new Date(item.pubDate);
+        return date <= now;
+    });
+
+    // Exclude "on this day" entries from market history
+    const filteredHistory = history.filter(item => item.category !== 'history');
+
+    // Limit counts as per requirements
+    const displayedNews = filteredNews.slice(0, 10);
+    const displayedHistory = filteredHistory.slice(0, 10);
+    const displayedHackathons = hackathons.slice(0, 5);
+    const displayedJobs = jobs.slice(0, 5);
 
     const tabs = [
         { id: 'news', label: 'Latest News', icon: Newspaper },
@@ -56,16 +66,16 @@ export default function TabsContainer({ news, history, hackathons, jobs }: Dashb
             {/* Content Area */}
             <div className="flex-1 min-h-0">
                 <div className={activeTab === 'news' ? 'block h-full' : 'hidden'}>
-                    <Column title="Latest News" items={news} icon={<Newspaper className="w-6 h-6" />} />
+                    <Column title="Latest News" items={displayedNews} icon={<Newspaper className="w-6 h-6" />} />
                 </div>
                 <div className={activeTab === 'history' ? 'block h-full' : 'hidden'}>
-                    <Column title="Market History" items={history} icon={<History className="w-6 h-6" />} />
+                    <Column title="Market History" items={displayedHistory} icon={<History className="w-6 h-6" />} />
                 </div>
                 <div className={activeTab === 'hackathons' ? 'block h-full' : 'hidden'}>
-                    <Column title="Hackathons" items={hackathons} icon={<Code className="w-6 h-6" />} />
+                    <Column title="Hackathons" items={displayedHackathons} icon={<Code className="w-6 h-6" />} />
                 </div>
                 <div className={activeTab === 'jobs' ? 'block h-full' : 'hidden'}>
-                    <Column title="Career" items={jobs} icon={<Briefcase className="w-6 h-6" />} />
+                    <Column title="Career" items={displayedJobs} icon={<Briefcase className="w-6 h-6" />} />
                 </div>
             </div>
         </div>
