@@ -39,6 +39,34 @@ const HISTORY_DB: Record<string, { title: string; year: string; description: str
         { title: 'Bitcoin Genesis Block Mined', year: '2009', description: 'Satoshi Nakamoto mined the first Bitcoin block, embedding the message "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"' },
         { title: 'Apple Computer Incorporated', year: '1977', description: 'Apple Computer Company was officially incorporated, marking the beginning of personal computing revolution' },
     ],
+    '02-14': [
+        { title: 'YouTube Founded', year: '2005', description: 'YouTube was founded by three former PayPal employees, revolutionizing online video sharing and creating new opportunities for content monetization and digital advertising.' },
+        { title: 'Nasdaq Stock Market Founded', year: '1971', description: 'The Nasdaq Stock Market began operations as the world\'s first electronic stock market, transforming how securities are traded globally.' },
+    ],
+    '03-10': [
+        { title: 'Silicon Valley Bank Collapse', year: '2023', description: 'Silicon Valley Bank failed in the second-largest bank failure in U.S. history, triggering concerns about the stability of regional banks and the tech startup ecosystem.' },
+        { title: 'NASDAQ Composite Peaks', year: '2000', description: 'The NASDAQ Composite index reached its dot-com bubble peak of 5,048.62 before the subsequent crash that reshaped the tech industry.' },
+    ],
+    '04-04': [
+        { title: 'Microsoft Founded', year: '1975', description: 'Bill Gates and Paul Allen founded Microsoft, which would become the world\'s largest software company and transform personal computing forever.' },
+        { title: 'Netscape IPO', year: '1995', description: 'Netscape Communications went public in one of the most successful IPOs ever, marking the beginning of the dot-com boom.' },
+    ],
+    '05-18': [
+        { title: 'Visa Inc. IPO', year: '2008', description: 'Visa Inc. completed the largest IPO in U.S. history at the time, raising $17.9 billion and transforming the global payments landscape.' },
+        { title: 'eBay Founded', year: '1995', description: 'Pierre Omidyar founded eBay (originally AuctionWeb), creating one of the first major e-commerce platforms and pioneering online marketplace business models.' },
+    ],
+    '06-29': [
+        { title: 'iPhone Released', year: '2007', description: 'Apple released the first iPhone, revolutionizing mobile computing and enabling the mobile payments revolution that followed.' },
+        { title: 'Google IPO', year: '2004', description: 'Google went public with an unconventional Dutch auction IPO, raising $1.67 billion and beginning its transformation into one of the world\'s most valuable companies.' },
+    ],
+    '07-15': [
+        { title: 'Amazon Prime Day Launched', year: '2015', description: 'Amazon introduced Prime Day, creating a new global shopping event that would generate billions in revenue and transform e-commerce.' },
+        { title: 'Twitter Founded', year: '2006', description: 'Jack Dorsey, Noah Glass, Biz Stone, and Evan Williams launched Twitter, creating a new platform for real-time communication and information sharing.' },
+    ],
+    '08-09': [
+        { title: 'Uber Founded', year: '2009', description: 'Travis Kalanick and Garrett Camp founded Uber, disrupting the transportation industry and pioneering the gig economy model.' },
+        { title: 'Alibaba Founded', year: '1999', description: 'Jack Ma founded Alibaba Group in China, which would become one of the world\'s largest e-commerce and technology conglomerates.' },
+    ],
     '09-15': [
         { title: 'Lehman Brothers Files for Bankruptcy', year: '2008', description: 'The collapse of Lehman Brothers triggered the global financial crisis, leading to major regulatory reforms' },
         { title: 'First ATM Installed in US', year: '1969', description: 'Chemical Bank installed the first ATM in the United States in Rockville Centre, New York' },
