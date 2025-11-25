@@ -165,16 +165,23 @@ export async function getJobs(): Promise<NewsItem[]> {
 export async function getHistory(): Promise<NewsItem[]> {
     const today = new Date();
     const key = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    // Skip today's events
-    const events = HISTORY_DB[key] ? [] : HISTORY_DB[key] || [];
-    return events
-        .map(e => ({
-            title: e.title,
-            link: 'https://en.wikipedia.org/wiki/History_of_finance',
-            pubDate: new Date().toISOString(),
-            contentSnippet: e.description.slice(0, 2000) + (e.description.length > 2000 ? '...' : ''),
-            source: 'FinHistory',
-            category: 'history' as const,
-        }) as NewsItem)
-        .slice(0, 10);
+
+    // Collect all historical events EXCEPT today's
+    const allEvents: NewsItem[] = [];
+    for (const [dateKey, events] of Object.entries(HISTORY_DB)) {
+        if (dateKey !== key) {
+            events.forEach(e => {
+                allEvents.push({
+                    title: e.title,
+                    link: 'https://en.wikipedia.org/wiki/History_of_finance',
+                    pubDate: new Date().toISOString(),
+                    contentSnippet: e.description.slice(0, 2000) + (e.description.length > 2000 ? '...' : ''),
+                    source: 'FinHistory',
+                    category: 'history' as const,
+                });
+            });
+        }
+    }
+
+    return allEvents.slice(0, 10);
 }
