@@ -13,18 +13,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OmniClicks - Daily Fintech Intelligence",
+  title: "OmniClicks - Daily Intelligence",
   description: "Aggregated news, history, hackathons, and jobs for finance professionals. Your daily dashboard for the fintech world.",
   openGraph: {
-    title: "OmniClicks - Daily Fintech Intelligence",
+    title: "OmniClicks - Daily Intelligence",
     description: "Aggregated news, history, hackathons, and jobs for finance professionals.",
     type: "website",
     locale: "en_US",
-    siteName: "OmniClicks Fintech",
+    siteName: "OmniClicks",
   },
   twitter: {
     card: "summary_large_image",
-    title: "OmniClicks - Daily Fintech Intelligence",
+    title: "OmniClicks - Daily Intelligence",
     description: "Aggregated news, history, hackathons, and jobs for finance professionals.",
   },
   icons: {

@@ -24,8 +24,8 @@ export default function TabsContainer({ news, history, hackathons, jobs }: Dashb
         return date <= now;
     });
 
-    // Exclude "on this day" entries from market history
-    const filteredHistory = history.filter(item => item.category !== 'history');
+    // Show historical events in market history
+    const filteredHistory = history.filter(item => item.category === 'history');
 
     // Limit counts as per requirements
     const displayedNews = filteredNews.slice(0, 10);

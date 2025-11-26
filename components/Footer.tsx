@@ -6,7 +6,7 @@ export default function Footer() {
         <footer className="w-full border-t border-slate-800 bg-slate-950/50 backdrop-blur-sm mt-auto">
             <div className="max-w-[1920px] mx-auto px-4 md:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="text-sm text-slate-500">
-                    © {new Date().getFullYear()} OmniClicks Fintech. All rights reserved.
+                    © {new Date().getFullYear()} OmniClicks. All rights reserved.
                 </div>
 
                 <div className="flex items-center gap-6">

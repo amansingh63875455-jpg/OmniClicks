@@ -1,4 +1,5 @@
-export function truncate(text: string, maxLength = 2000): string {
-    if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength) + '…';
+export function truncate(text: string, maxWords = 100): string {
+    const words = text.split(/\s+/);
+    if (words.length <= maxWords) return text;
+    return words.slice(0, maxWords).join(' ') + '…';
 }
