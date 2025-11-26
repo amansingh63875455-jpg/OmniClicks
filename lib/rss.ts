@@ -209,7 +209,7 @@ async function fetchFeed(url: string, source: string, category: NewsItem['catego
 
 /**
  * Get unified news feed for Inshorts-style display.
- * Combines news, history, hackathons, and research papers.
+ * Prioritizes latest news and historical news with a 5:3 ratio.
  */
 export async function getUnifiedNews(): Promise<NewsItem[]> {
     // 1. Fetch all feeds in parallel
@@ -223,22 +223,11 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
         Promise.all(researchPromises)
     ]);
 
-    let allItems: NewsItem[] = [
-        ...newsResults.flat(),
-        ...hackathonResults.flat(),
-        ...researchResults.flat()
-    ];
-
-    // 2. Add Historical Events (All of them, not just today's, but shuffled in)
-    // Actually, user asked for "historical news" in the feed. Let's add a curated set of history items.
-    // To make it interesting, we'll pick random history events from the DB.
+    // 2. Get historical events
     const allHistoryEvents: NewsItem[] = [];
     Object.entries(HISTORY_DB).forEach(([dateKey, events]) => {
         events.forEach(e => {
             const [month, day] = dateKey.split('-');
-            // Use current year for display sorting purposes, or keep original year?
-            // Let's use a fixed date so they don't always appear at top.
-            // Actually, we are shuffling, so date doesn't matter for order, only for display.
             const dateObj = new Date(parseInt(e.year), parseInt(month) - 1, parseInt(day));
 
             allHistoryEvents.push({
@@ -252,48 +241,41 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
         });
     });
 
-    // Pick 15 random history events to inject
-    const shuffledHistory = allHistoryEvents.sort(() => 0.5 - Math.random()).slice(0, 15);
-    allItems = [...allItems, ...shuffledHistory];
+    // 3. Build feed with 5:3 ratio (Latest News : Historical News)
+    // Target: 30 latest news, 18 historical news, 2 research papers = 50 total
+    const latestNews = newsResults.flat().sort(() => 0.5 - Math.random()).slice(0, 30);
+    const historicalNews = allHistoryEvents.sort(() => 0.5 - Math.random()).slice(0, 18);
+    const researchPapers = researchResults.flat().sort(() => 0.5 - Math.random()).slice(0, 2);
 
-    // 3. Shuffle everything
+    // 4. Combine and shuffle
+    let allItems: NewsItem[] = [
+        ...latestNews,
+        ...historicalNews,
+        ...researchPapers
+    ];
+
+    // Shuffle everything
     for (let i = allItems.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [allItems[i], allItems[j]] = [allItems[j], allItems[i]];
     }
 
-    // 4. Take top 50 items
-    const topItems = allItems.slice(0, 50);
-
-    // 5. Generate AI Summaries for the top 5 items to ensure fast initial load
-    // For the rest, we'll do it on the client side or just use the snippet.
-    // Actually, let's try to summarize the top 3 items here to give a "wow" factor immediately.
-    // Note: This might slow down the initial page load.
-
-    // We will NOT await this for all, maybe just for the very first one?
-    // Or better, let's just return the items and let the client trigger summarization if needed,
-    // BUT the user asked for "make the summary of news properly".
-    // Let's try to summarize the first 2 items server-side if possible, or just rely on the snippet if it's good enough.
-    // The current snippet is just 100 words.
-
-    // Let's iterate and try to improve the snippet for the first few items.
+    // 5. Generate AI Summaries for the top 3 items to ensure fast initial load
     for (let i = 0; i < 3; i++) {
-        if (topItems[i] && topItems[i].category !== 'history') { // History already has good descriptions
+        if (allItems[i] && allItems[i].category !== 'history') { // History already has good descriptions
             try {
-                const summary = await generateSummary(topItems[i].link, topItems[i].title, topItems[i].contentSnippet);
-                topItems[i].contentSnippet = summary;
+                const summary = await generateSummary(allItems[i].link, allItems[i].title, allItems[i].contentSnippet);
+                allItems[i].contentSnippet = summary;
             } catch (e) {
                 console.log('Failed to generate summary for item ' + i);
             }
         }
     }
 
-    return topItems;
+    return allItems;
 }
 
 export async function getNews() { return []; } // Deprecated
 export async function getHackathons() { return []; } // Deprecated
 export async function getJobs() { return []; } // Deprecated
 export async function getHistory() { return []; } // Deprecated
-
-
