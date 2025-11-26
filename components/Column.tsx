@@ -21,7 +21,7 @@ export default function Column({ title, items, icon }: ColumnProps) {
 
             <div className="flex-1 overflow-y-auto pr-2 space-y-4 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent custom-scrollbar">
                 {items.map((item, i) => (
-                    <NewsCard key={i} item={item} />
+                    <NewsCard key={i} item={item} isActive={true} />
                 ))}
                 {items.length === 0 && (
                     <div className="text-center py-10 text-slate-600 italic">
