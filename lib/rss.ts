@@ -246,40 +246,54 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
                 link: e.link,
                 pubDate: dateObj.toISOString(),
                 contentSnippet: e.description,
-            }
+                source: `History (${e.year})`,
+                category: 'history'
+            });
+        });
+    });
+
+    // Pick 15 random history events to inject
+    const shuffledHistory = allHistoryEvents.sort(() => 0.5 - Math.random()).slice(0, 15);
+    allItems = [...allItems, ...shuffledHistory];
+
+    // 3. Shuffle everything
+    for (let i = allItems.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allItems[i], allItems[j]] = [allItems[j], allItems[i]];
+    }
 
     // 4. Take top 50 items
     const topItems = allItems.slice(0, 50);
 
-            // 5. Generate AI Summaries for the top 5 items to ensure fast initial load
-            // For the rest, we'll do it on the client side or just use the snippet.
-            // Actually, let's try to summarize the top 3 items here to give a "wow" factor immediately.
-            // Note: This might slow down the initial page load.
+    // 5. Generate AI Summaries for the top 5 items to ensure fast initial load
+    // For the rest, we'll do it on the client side or just use the snippet.
+    // Actually, let's try to summarize the top 3 items here to give a "wow" factor immediately.
+    // Note: This might slow down the initial page load.
 
-            // We will NOT await this for all, maybe just for the very first one?
-            // Or better, let's just return the items and let the client trigger summarization if needed,
-            // BUT the user asked for "make the summary of news properly".
-            // Let's try to summarize the first 2 items server-side if possible, or just rely on the snippet if it's good enough.
-            // The current snippet is just 100 words.
+    // We will NOT await this for all, maybe just for the very first one?
+    // Or better, let's just return the items and let the client trigger summarization if needed,
+    // BUT the user asked for "make the summary of news properly".
+    // Let's try to summarize the first 2 items server-side if possible, or just rely on the snippet if it's good enough.
+    // The current snippet is just 100 words.
 
-            // Let's iterate and try to improve the snippet for the first few items.
-            for (let i = 0; i < 3; i++) {
-                if (topItems[i] && topItems[i].category !== 'history') { // History already has good descriptions
-                    try {
-                        const summary = await generateSummary(topItems[i].link, topItems[i].title, topItems[i].contentSnippet);
-                        topItems[i].contentSnippet = summary;
-                    } catch (e) {
-                        console.log('Failed to generate summary for item ' + i);
-                    }
-                }
+    // Let's iterate and try to improve the snippet for the first few items.
+    for (let i = 0; i < 3; i++) {
+        if (topItems[i] && topItems[i].category !== 'history') { // History already has good descriptions
+            try {
+                const summary = await generateSummary(topItems[i].link, topItems[i].title, topItems[i].contentSnippet);
+                topItems[i].contentSnippet = summary;
+            } catch (e) {
+                console.log('Failed to generate summary for item ' + i);
             }
-
-            return topItems;
         }
+    }
+
+    return topItems;
+}
 
 export async function getNews() { return []; } // Deprecated
-        export async function getHackathons() { return []; } // Deprecated
-        export async function getJobs() { return []; } // Deprecated
-        export async function getHistory() { return []; } // Deprecated
+export async function getHackathons() { return []; } // Deprecated
+export async function getJobs() { return []; } // Deprecated
+export async function getHistory() { return []; } // Deprecated
 
 
