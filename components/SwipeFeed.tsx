@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { NewsItem } from '@/lib/rss';
 import NewsCard from './NewsCard';
+import HistoricalSources from './HistoricalSources';
 import { ChevronDown } from 'lucide-react';
 
 interface SwipeFeedProps {
@@ -71,11 +72,14 @@ export default function SwipeFeed({ initialNews }: SwipeFeedProps) {
                     />
                 ))}
 
-                {/* End of feed message */}
-                <div className="h-full w-full flex items-center justify-center snap-start bg-slate-950 text-slate-500">
-                    <div className="text-center">
-                        <p className="text-xl font-medium mb-2">You're all caught up!</p>
-                        <p className="text-sm">Check back later for more updates.</p>
+                {/* End of feed message & Historical Sources */}
+                <div className="h-full w-full flex items-center justify-center snap-start bg-slate-950 p-4">
+                    <div className="w-full max-w-2xl h-full overflow-y-auto py-10 no-scrollbar">
+                        <HistoricalSources />
+                        <div className="text-center mt-8 mb-20 text-slate-500">
+                            <p className="text-xl font-medium mb-2">You're all caught up!</p>
+                            <p className="text-sm">Check back later for more updates.</p>
+                        </div>
                     </div>
                 </div>
             </div>

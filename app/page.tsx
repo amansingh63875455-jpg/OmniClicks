@@ -11,7 +11,6 @@ export default async function Home() {
   return (
     <main className="h-screen w-full bg-slate-950 text-slate-200 font-sans selection:bg-blue-500/30 overflow-hidden">
       <SwipeFeed initialNews={news} />
-      <HistoricalSources />
     </main>
   );
 }
