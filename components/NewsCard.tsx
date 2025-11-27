@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { NewsItem } from '@/lib/rss';
-import { ExternalLink, Calendar, Share2, Bookmark } from 'lucide-react';
+import { ExternalLink, Calendar, Share2, Check } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface NewsCardProps {
@@ -28,6 +28,28 @@ export default function NewsCard({ item, isActive }: NewsCardProps) {
             case 'research': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
             case 'job': return 'bg-pink-500/10 text-pink-400 border-pink-500/20';
             default: return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        }
+    };
+
+    const [hasCopied, setHasCopied] = useState(false);
+
+    const handleShare = async () => {
+        const shareData = {
+            title: item.title,
+            text: item.contentSnippet,
+            url: item.link
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                await navigator.clipboard.writeText(item.link);
+                setHasCopied(true);
+                setTimeout(() => setHasCopied(false), 2000);
+            }
+        } catch (err) {
+            console.error('Error sharing:', err);
         }
     };
 
@@ -70,15 +92,18 @@ export default function NewsCard({ item, isActive }: NewsCardProps) {
 
                 {/* Footer: Actions */}
                 <div className="pt-6 flex items-center justify-between border-t border-slate-800/50 mt-4">
-                    <div className="flex gap-4">
-                        <button className="p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors">
-                            <Share2 className="w-5 h-5" />
-                        </button>
-                        <button className="p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors">
-                            <Bookmark className="w-5 h-5" />
-                        </button>
-                    </div>
-
+                    <button
+                        onClick={handleShare}
+                        className="p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors relative group"
+                        title="Share"
+                    >
+                        {hasCopied ? <Check className="w-5 h-5 text-green-500" /> : <Share2 className="w-5 h-5" />}
+                        {hasCopied && (
+                            <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-slate-800 text-white text-xs rounded shadow-lg whitespace-nowrap">
+                                Copied!
+                            </span>
+                        )}
+                    </button>
                     <a
                         href={item.link}
                         target="_blank"

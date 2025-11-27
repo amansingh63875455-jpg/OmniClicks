@@ -24,12 +24,8 @@ const FEEDS = {
         { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664', source: 'CNBC Finance' },
         { url: 'https://www.investing.com/rss/news_25.rss', source: 'Investing.com' },
         { url: 'https://www.reuters.com/finance/rss', source: 'Reuters' },
-        { url: 'https://feeds.bloomberg.com/markets/news.rss', source: 'Bloomberg' },
         { url: 'https://www.forbes.com/fintech/feed/', source: 'Forbes' },
-        { url: 'https://www.ft.com/rss/home/us', source: 'Financial Times' },
-        { url: 'https://www.businessinsider.com/rss', source: 'Business Insider' },
         { url: 'https://www.marketwatch.com/rss/', source: 'MarketWatch' },
-        { url: 'https://www.barrons.com/rss', source: "Barron's" },
         { url: 'https://finance.yahoo.com/rss/', source: 'Yahoo Finance' },
         { url: 'https://seekingalpha.com/feed.xml', source: 'Seeking Alpha' },
         { url: 'https://www.fool.com/rss/index.aspx', source: 'Motley Fool' },
@@ -53,13 +49,11 @@ const FEEDS = {
         { url: 'https://fortune.com/feed/', source: 'Fortune' },
         { url: 'https://www.inc.com/rss/', source: 'Inc' },
         { url: 'https://www.fastcompany.com/latest/rss', source: 'Fast Company' },
-        { url: 'https://hbr.org/feed', source: 'Harvard Business Review' },
 
         // Payment & Banking
         { url: 'https://www.pymnts.com/feed/', source: 'PYMNTS' },
         { url: 'https://thefinancialbrand.com/feed/', source: 'The Financial Brand' },
         { url: 'https://www.paymentsjournal.com/feed/', source: 'Payments Journal' },
-        { url: 'https://www.americanbanker.com/feed', source: 'American Banker' },
 
         // Venture & Startups
         { url: 'https://news.crunchbase.com/feed/', source: 'Crunchbase News' },
@@ -67,10 +61,6 @@ const FEEDS = {
         { url: 'https://techcrunch.com/feed/', source: 'TechCrunch News' },
 
         // Global Business
-        { url: 'https://www.economist.com/finance-and-economics/rss.xml', source: 'The Economist' },
-        { url: 'https://www.wsj.com/xml/rss/3_7031.xml', source: 'Wall Street Journal' },
-        { url: 'https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/business/rss.xml', source: 'NY Times Business' },
-        { url: 'https://www.washingtonpost.com/arc/outboundfeeds/rss/business/', source: 'Washington Post' },
 
         // Additional Quality Sources
         { url: 'https://www.axios.com/feeds/feed.rss', source: 'Axios' },
