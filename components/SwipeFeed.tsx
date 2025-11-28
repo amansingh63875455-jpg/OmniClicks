@@ -66,7 +66,7 @@ export default function SwipeFeed({ initialNews }: SwipeFeedProps) {
             {/* Feed Container */}
             <div
                 ref={containerRef}
-                className="h-full w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar pt-32"
+                className="h-full w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar pt-48"
                 style={{ scrollSnapType: 'y mandatory' }}
             >
                 {initialNews.map((item, index) => (
