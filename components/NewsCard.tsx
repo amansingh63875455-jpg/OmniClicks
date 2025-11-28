@@ -27,6 +27,7 @@ export default function NewsCard({ item, isActive }: NewsCardProps) {
             case 'hackathon': return 'bg-purple-500/10 text-purple-400 border-purple-500/20';
             case 'research': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
             case 'job': return 'bg-pink-500/10 text-pink-400 border-pink-500/20';
+            case 'terminology': return 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20';
             default: return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
         }
     };
@@ -112,7 +113,8 @@ export default function NewsCard({ item, isActive }: NewsCardProps) {
                     >
                         {item.category === 'research' ? 'Read Paper' :
                             item.category === 'hackathon' ? 'Apply Now' :
-                                item.category === 'job' ? 'View Job' : 'Read Full Story'}
+                                item.category === 'job' ? 'View Job' :
+                                    item.category === 'terminology' ? 'Learn More' : 'Read Full Story'}
                         <ExternalLink className="w-4 h-4" />
                     </a>
                 </div>

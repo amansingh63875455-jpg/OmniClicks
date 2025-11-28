@@ -1,5 +1,6 @@
 import Parser from 'rss-parser';
 import { generateSummary } from './ai-summarizer';
+import { TERMINOLOGY_DB } from './terminology';
 
 export interface NewsItem {
     title: string;
@@ -7,7 +8,7 @@ export interface NewsItem {
     pubDate: string;
     contentSnippet: string;
     source: string;
-    category: 'news' | 'history' | 'hackathon' | 'job' | 'research';
+    category: 'news' | 'history' | 'hackathon' | 'job' | 'research' | 'terminology';
 }
 
 const parser = new Parser({
@@ -40,15 +41,9 @@ const FEEDS = {
         { url: 'https://cryptonews.com/news/feed/', source: 'CryptoNews' },
         { url: 'https://www.coinbureau.com/feed/', source: 'Coin Bureau' },
 
-        // Tech & Business
-        { url: 'https://venturebeat.com/feed/', source: 'VentureBeat' },
-        { url: 'https://www.wired.com/feed/rss', source: 'Wired' },
-        { url: 'https://www.theverge.com/rss/index.xml', source: 'The Verge' },
-        { url: 'https://arstechnica.com/feed/', source: 'Ars Technica' },
-        { url: 'https://www.zdnet.com/news/rss.xml', source: 'ZDNet' },
-        { url: 'https://fortune.com/feed/', source: 'Fortune' },
-        { url: 'https://www.inc.com/rss/', source: 'Inc' },
-        { url: 'https://www.fastcompany.com/latest/rss', source: 'Fast Company' },
+        // Tech & Business (Fintech Focused)
+        { url: 'https://venturebeat.com/category/fintech/feed/', source: 'VentureBeat Fintech' },
+        { url: 'https://www.forbes.com/fintech/feed/', source: 'Forbes Fintech' },
 
         // Payment & Banking
         { url: 'https://www.pymnts.com/feed/', source: 'PYMNTS' },
@@ -56,9 +51,9 @@ const FEEDS = {
         { url: 'https://www.paymentsjournal.com/feed/', source: 'Payments Journal' },
 
         // Venture & Startups
-        { url: 'https://news.crunchbase.com/feed/', source: 'Crunchbase News' },
-        { url: 'https://www.entrepreneur.com/latest.rss', source: 'Entrepreneur' },
-        { url: 'https://techcrunch.com/feed/', source: 'TechCrunch News' },
+        { url: 'https://news.crunchbase.com/sections/fintech-commerce/feed/', source: 'Crunchbase Fintech' },
+        { url: 'https://www.entrepreneur.com/topic/fintech.rss', source: 'Entrepreneur Fintech' },
+        { url: 'https://techcrunch.com/category/fintech/feed/', source: 'TechCrunch Fintech' },
 
         // Global Business
 
@@ -146,6 +141,8 @@ const HISTORY_DB: Record<string, { title: string; year: string; description: str
         { title: 'First Credit Card Introduced', year: '1950', description: 'Diners Club introduced the first modern credit card, revolutionizing how people pay for goods and services', link: 'https://en.wikipedia.org/wiki/Credit_card#History', source: 'Wikipedia' },
     ],
 };
+
+
 
 /**
  * Fetch a feed and normalize each item.
@@ -237,11 +234,22 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
     const historicalNews = allHistoryEvents.sort(() => 0.5 - Math.random()).slice(0, 18);
     const researchPapers = researchResults.flat().sort(() => 0.5 - Math.random()).slice(0, 2);
 
-    // 4. Combine and shuffle
+    // 4. Get Terminology items
+    const terminologyItems: NewsItem[] = TERMINOLOGY_DB.map(t => ({
+        title: `${t.term} (${t.category})`,
+        link: 'https://en.wikipedia.org/wiki/' + t.term.replace(/\s+/g, '_').replace(/[()]/g, ''), // Fallback link
+        pubDate: new Date().toISOString(),
+        contentSnippet: t.definition,
+        source: 'FinTech Terminology',
+        category: 'terminology' as const
+    })).sort(() => 0.5 - Math.random()).slice(0, 5); // Take 5 random terms
+
+    // 5. Combine and shuffle
     let allItems: NewsItem[] = [
         ...latestNews,
         ...historicalNews,
-        ...researchPapers
+        ...researchPapers,
+        ...terminologyItems
     ];
 
     // Shuffle everything
