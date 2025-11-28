@@ -88,76 +88,43 @@ const FEEDS = {
     ]
 };
 
-// Static history database (Month-Day) – comprehensive fintech milestones
+// Static history database (Month-Day) – advanced fintech milestones
 const HISTORY_DB: Record<string, { title: string; year: string; description: string; link: string; source: string }[]> = {
-    '01-03': [
-        { title: 'Bitcoin Genesis Block Mined', year: '2009', description: 'Satoshi Nakamoto mined the first Bitcoin block, embedding the message "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"', link: 'https://www.blockchain.com/explorer/blocks/btc/0', source: 'Blockchain.com' },
-        { title: 'Apple Computer Incorporated', year: '1977', description: 'Apple Computer Company was officially incorporated, marking the beginning of personal computing revolution', link: 'https://www.loc.gov/item/today-in-history/april-01/', source: 'Library of Congress' },
+    '05-03': [
+        { title: 'SWIFT Founded', year: '1973', description: 'The Society for Worldwide Interbank Financial Telecommunication (SWIFT) was founded in Brussels, establishing the standard for global interbank messaging and cross-border payments.', link: 'https://www.swift.com/about-us/history', source: 'SWIFT' },
     ],
-    '02-14': [
-        { title: 'YouTube Founded', year: '2005', description: 'YouTube was founded by three former PayPal employees, revolutionizing online video sharing and creating new opportunities for content monetization and digital advertising.', link: 'https://www.britannica.com/topic/YouTube', source: 'Britannica' },
-        { title: 'Nasdaq Stock Market Founded', year: '1971', description: 'The Nasdaq Stock Market began operations as the world\'s first electronic stock market, transforming how securities are traded globally.', link: 'https://www.nasdaq.com/about/history', source: 'Nasdaq' },
+    '05-01': [
+        { title: 'Black-Scholes Model Published', year: '1973', description: 'Fischer Black and Myron Scholes published "The Pricing of Options and Corporate Liabilities", revolutionizing quantitative finance and derivatives trading.', link: 'https://www.jstor.org/stable/1831029', source: 'JSTOR' },
     ],
-    '03-10': [
-        { title: 'Silicon Valley Bank Collapse', year: '2023', description: 'Silicon Valley Bank failed in the second-largest bank failure in U.S. history, triggering concerns about the stability of regional banks and the tech startup ecosystem.', link: 'https://www.fdic.gov/news/press-releases/2023/pr23019.html', source: 'FDIC' },
-        { title: 'NASDAQ Composite Peaks', year: '2000', description: 'The NASDAQ Composite index reached its dot-com bubble peak of 5,048.62 before the subsequent crash that reshaped the tech industry.', link: 'https://www.investopedia.com/terms/d/dotcom-bubble.asp', source: 'Investopedia' },
-    ],
-    '04-04': [
-        { title: 'Microsoft Founded', year: '1975', description: 'Bill Gates and Paul Allen founded Microsoft, which would become the world\'s largest software company and transform personal computing forever.', link: 'https://news.microsoft.com/announcement/microsoft-founded-april-4-1975/', source: 'Microsoft News' },
-        { title: 'Netscape IPO', year: '1995', description: 'Netscape Communications went public in one of the most successful IPOs ever, marking the beginning of the dot-com boom.', link: 'https://www.history.com/this-day-in-history/netscape-ipo', source: 'History.com' },
-    ],
-    '05-18': [
-        { title: 'Visa Inc. IPO', year: '2008', description: 'Visa Inc. completed the largest IPO in U.S. history at the time, raising $17.9 billion and transforming the global payments landscape.', link: 'https://usa.visa.com/about-visa/our-story.html', source: 'Visa' },
-        { title: 'eBay Founded', year: '1995', description: 'Pierre Omidyar founded eBay (originally AuctionWeb), creating one of the first major e-commerce platforms and pioneering online marketplace business models.', link: 'https://www.ebayinc.com/company/our-history/', source: 'eBay Inc' },
-    ],
-    '06-29': [
-        { title: 'iPhone Released', year: '2007', description: 'Apple released the first iPhone, revolutionizing mobile computing and enabling the mobile payments revolution that followed.', link: 'https://www.history.com/this-day-in-history/steve-jobs-debuts-the-iphone', source: 'History.com' },
-        { title: 'Google IPO', year: '2004', description: 'Google went public with an unconventional Dutch auction IPO, raising $1.67 billion and beginning its transformation into one of the world\'s most valuable companies.', link: 'https://abc.xyz/investor/founders-letters/2004-ipo-letter/', source: 'Google Investor' },
+    '01-22': [
+        { title: 'First ETF (SPY) Launched', year: '1993', description: 'State Street Global Advisors launched the SPDR S&P 500 ETF (SPY), the first exchange-traded fund in the US, transforming passive investing forever.', link: 'https://www.ssga.com/us/en/intermediary/etfs/funds/spdr-sp-500-etf-trust-spy', source: 'State Street' },
     ],
     '07-15': [
-        { title: 'Amazon Prime Day Launched', year: '2015', description: 'Amazon introduced Prime Day, creating a new global shopping event that would generate billions in revenue and transform e-commerce.', link: 'https://press.aboutamazon.com/2015/07/amazon-prime-day-records', source: 'Amazon Press' },
-        { title: 'Twitter Founded', year: '2006', description: 'Jack Dorsey, Noah Glass, Biz Stone, and Evan Williams launched Twitter, creating a new platform for real-time communication and information sharing.', link: 'https://www.britannica.com/topic/Twitter', source: 'Britannica' },
+        { title: 'Basel I Accord', year: '1988', description: 'The Basel Committee on Banking Supervision published the Basel I accord, introducing the first international capital measurement system and minimum capital standards for banks.', link: 'https://www.bis.org/publ/bcbs04a.htm', source: 'BIS' },
     ],
-    '08-09': [
-        { title: 'Uber Founded', year: '2009', description: 'Travis Kalanick and Garrett Camp founded Uber, disrupting the transportation industry and pioneering the gig economy model.', link: 'https://www.uber.com/newsroom/history/', source: 'Uber Newsroom' },
-        { title: 'Alibaba Founded', year: '1999', description: 'Jack Ma founded Alibaba Group in China, which would become one of the world\'s largest e-commerce and technology conglomerates.', link: 'https://www.alibabagroup.com/en/about/history', source: 'Alibaba Group' },
+    '12-08': [
+        { title: 'SEC Regulation ATS', year: '1998', description: 'The SEC adopted Regulation ATS, establishing a regulatory framework for Alternative Trading Systems and paving the way for electronic communication networks (ECNs) and high-frequency trading.', link: 'https://www.sec.gov/rules/final/34-40760.txt', source: 'SEC' },
     ],
-    '09-15': [
-        { title: 'Lehman Brothers Files for Bankruptcy', year: '2008', description: 'The collapse of Lehman Brothers triggered the global financial crisis, leading to major regulatory reforms', link: 'https://www.history.com/this-day-in-history/lehman-brothers-collapses', source: 'History.com' },
-        { title: 'First ATM Installed in US', year: '1969', description: 'Chemical Bank installed the first ATM in the United States in Rockville Centre, New York', link: 'https://www.smithsonianmag.com/history/atm-dead-long-live-atm-180953838/', source: 'Smithsonian Mag' },
+    '12-20': [
+        { title: 'Payment & Settlement Systems Act', year: '2007', description: 'The Payment and Settlement Systems Act received the assent of the President of India, designating the RBI as the authority for regulation and supervision of payment systems in India.', link: 'https://m.rbi.org.in/Scripts/FAQView.aspx?Id=73', source: 'RBI' },
     ],
-    '10-31': [
-        { title: 'Bitcoin Whitepaper Published', year: '2008', description: 'Satoshi Nakamoto published the Bitcoin whitepaper titled "Bitcoin: A Peer-to-Peer Electronic Cash System"', link: 'https://bitcoin.org/bitcoin.pdf', source: 'Bitcoin.org' },
-        { title: 'New York Stock Exchange Crash', year: '1929', description: 'Black Tuesday marked the most devastating stock market crash in US history', link: 'https://www.history.com/topics/great-depression/1929-stock-market-crash', source: 'History.com' },
-    ],
-    '11-24': [
-        { title: 'PayPal Goes Public', year: '2002', description: 'PayPal Holdings Inc. completed its IPO on NASDAQ, revolutionizing online payments. The company transformed how people send and receive money online, making digital payments accessible to millions worldwide.', link: 'https://www.cnn.com/2002/TECH/biztech/02/15/paypal.ipo/', source: 'CNN Money' },
-        { title: 'First Bitcoin ATM Installed', year: '2013', description: "The world's first Bitcoin ATM was installed in Vancouver, Canada, marking a significant milestone in cryptocurrency adoption. This machine allowed users to exchange cash for Bitcoin instantly, bridging the gap between traditional and digital currency.", link: 'https://www.bbc.com/news/technology-24740275', source: 'BBC News' },
-        { title: 'Stripe Founded', year: '2010', description: 'Patrick and John Collison founded Stripe to simplify online payment processing for businesses of all sizes. The platform revolutionized e‑commerce by making it easy for developers to integrate payment systems into their websites and applications.', link: 'https://www.bloomberg.com/profile/company/1273934D:US', source: 'Bloomberg' },
-        { title: 'Square Inc. Founded', year: '2009', description: "Jack Dorsey and Jim McKelvey founded Square to enable mobile payments for small businesses. The company's card reader transformed smartphones into payment terminals, democratizing access to credit‑card processing.", link: 'https://www.britannica.com/topic/Square-Inc', source: 'Britannica' },
-        { title: 'Venmo Launched', year: '2009', description: 'Venmo was launched as a peer‑to‑peer payment app that made splitting bills and sending money to friends as easy as sending a text message. Later acquired by PayPal, it became one of the most popular payment apps among millennials.', link: 'https://www.businessinsider.com/venmo-history-founders-2019-11', source: 'Business Insider' },
-        { title: 'Robinhood Founded', year: '2013', description: 'Robinhood Markets was founded to democratize finance for all by offering commission‑free stock trading. The platform disrupted the brokerage industry and made investing accessible to a new generation of retail investors.', link: 'https://www.cnbc.com/2021/07/29/robinhood-ipo-how-the-trading-app-started-and-grew.html', source: 'CNBC' },
-        { title: 'Coinbase Founded', year: '2012', description: 'Brian Armstrong and Fred Ehrsam founded Coinbase, which became the largest cryptocurrency exchange in the United States. The platform made buying, selling, and storing cryptocurrencies simple and secure for mainstream users.', link: 'https://www.nytimes.com/2021/04/14/technology/coinbase-ipo-stock-price.html', source: 'NY Times' },
-        { title: 'Revolut Launched', year: '2015', description: 'Revolut was launched in the UK as a digital banking alternative offering multi‑currency accounts, cryptocurrency trading, and budgeting tools. The fintech unicorn expanded rapidly across Europe and beyond.', link: 'https://www.forbes.com/sites/davidschwartz/2021/07/15/revolut-becomes-uks-most-valuable-fintech-at-33-billion-valuation/', source: 'Forbes' },
-        { title: 'Wise (TransferWise) Founded', year: '2011', description: 'Wise was founded to provide transparent international money transfers at the real exchange rate. The company disrupted traditional banks by offering significantly lower fees for cross‑border payments.', link: 'https://www.bbc.com/news/business-57766763', source: 'BBC News' },
-        { title: 'Plaid Founded', year: '2013', description: "Plaid was founded to connect fintech applications to users' bank accounts securely. The company's API infrastructure powers thousands of financial apps, enabling seamless data sharing between banks and third‑party services.", link: 'https://www.forbes.com/sites/jeffkauflin/2020/01/13/visa-is-buying-fintech-startup-plaid-for-53-billion/', source: 'Forbes' },
-    ],
-    '11-08': [
-        { title: 'Demonetization in India', year: '2016', description: 'The Government of India announced the demonetization of ₹500 and ₹1000 banknotes, triggering a massive surge in digital payments adoption across the country.', link: 'https://www.bbc.com/news/world-asia-india-37974423', source: 'BBC News' },
-    ],
-    '04-11': [
-        { title: 'UPI Launched', year: '2016', description: 'National Payments Corporation of India (NPCI) launched the Unified Payments Interface (UPI), revolutionizing real-time digital payments in India.', link: 'https://www.npci.org.in/what-we-do/upi/product-overview', source: 'NPCI' },
-    ],
-    '08-01': [
-        { title: 'Paytm Founded', year: '2010', description: 'Vijay Shekhar Sharma founded Paytm as a prepaid mobile recharge website, which later evolved into India\'s leading digital payments and financial services company.', link: 'https://paytm.com/about-us/', source: 'Paytm' },
+    '11-22': [
+        { title: 'IMPS Launched', year: '2010', description: 'NPCI launched the Immediate Payment Service (IMPS), offering an instant, 24x7, interbank electronic fund transfer service through mobile phones.', link: 'https://www.npci.org.in/what-we-do/imps/product-overview', source: 'NPCI' },
     ],
     '12-01': [
-        { title: 'PhonePe Founded', year: '2015', description: 'Sameer Nigam, Rahul Chari, and Burzin Engineer founded PhonePe, which became the first payment app built on UPI to cross 10 million downloads.', link: 'https://www.phonepe.com/about-us/', source: 'PhonePe' },
-        { title: 'RBI Launches Digital Rupee', year: '2022', description: 'The Reserve Bank of India launched the first pilot for the Digital Rupee (e₹-R), marking a significant step towards a Central Bank Digital Currency (CBDC).', link: 'https://rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=54616', source: 'RBI' },
+        { title: 'NPCI Incorporated', year: '2008', description: 'The National Payments Corporation of India (NPCI) was incorporated as a specialized division of the RBI to operate retail payments and settlement systems.', link: 'https://www.npci.org.in/who-we-are/about-us', source: 'NPCI' },
     ],
-    '12-12': [
-        { title: 'Apple IPO', year: '1980', description: 'Apple Computer went public at $22 per share, creating instant millionaires among employees and early investors. The IPO was one of the most successful in history at the time.', link: 'https://www.history.com/this-day-in-history/apple-goes-public', source: 'History.com' },
-        { title: 'First Credit Card Introduced', year: '1950', description: 'Diners Club introduced the first modern credit card, revolutionizing how people pay for goods and services', link: 'https://www.britannica.com/topic/credit-card', source: 'Britannica' },
+    '01-28': [
+        { title: 'UIDAI Established (Aadhaar)', year: '2009', description: 'The Unique Identification Authority of India (UIDAI) was established, laying the foundation for Aadhaar, the world\'s largest biometric ID system and a key pillar of India\'s fintech stack.', link: 'https://uidai.gov.in/en/about-uidai/unique-identification-authority-of-india/history.html', source: 'UIDAI' },
+    ],
+    '03-26': [
+        { title: 'RuPay Card Launched', year: '2012', description: 'NPCI launched RuPay, India\'s own domestic card network, to reduce dependency on international card schemes like Visa and Mastercard.', link: 'https://www.npci.org.in/what-we-do/rupay/product-overview', source: 'NPCI' },
+    ],
+    '10-31': [
+        { title: 'Bitcoin Whitepaper', year: '2008', description: 'Satoshi Nakamoto published "Bitcoin: A Peer-to-Peer Electronic Cash System", introducing the concept of a decentralized ledger and solving the double-spending problem.', link: 'https://bitcoin.org/bitcoin.pdf', source: 'Bitcoin.org' },
+    ],
+    '09-15': [
+        { title: 'Lehman Brothers Collapse', year: '2008', description: 'Lehman Brothers filed for Chapter 11 bankruptcy protection, marking the largest bankruptcy filing in U.S. history and intensifying the global financial crisis.', link: 'https://www.federalreservehistory.org/essays/lehman-brothers-bankruptcy', source: 'Fed History' },
     ],
 };
 
@@ -255,7 +222,7 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
     const globalNews = allNews.filter(n => !indianSources.includes(n.source));
 
     // 4. Categorize history
-    const indianHistoryKeywords = ['India', 'Paytm', 'PhonePe', 'UPI', 'RBI', 'Rupee'];
+    const indianHistoryKeywords = ['India', 'Paytm', 'PhonePe', 'UPI', 'RBI', 'Rupee', 'NPCI', 'IMPS', 'Aadhaar', 'RuPay', 'UIDAI'];
     const indianHistory = allHistoryEvents.filter(h => indianHistoryKeywords.some(k => h.title.includes(k) || h.contentSnippet.includes(k)));
     const globalHistory = allHistoryEvents.filter(h => !indianHistoryKeywords.some(k => h.title.includes(k) || h.contentSnippet.includes(k)));
 
