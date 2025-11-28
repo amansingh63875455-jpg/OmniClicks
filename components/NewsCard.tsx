@@ -23,7 +23,8 @@ export default function NewsCard({ item, isActive }: NewsCardProps) {
     const getCategoryColor = (category: string) => {
         switch (category) {
             case 'news': return 'bg-blue-100 text-blue-700 border-blue-300';
-            case 'history': return 'bg-amber-100 text-amber-700 border-amber-300';
+            // History: Harder/Older look (Stone/Sepia with stronger border)
+            case 'history': return 'bg-[#e8e4d9] text-stone-800 border-stone-500 border-2 font-serif';
             case 'hackathon': return 'bg-purple-100 text-purple-700 border-purple-300';
             case 'research': return 'bg-emerald-100 text-emerald-700 border-emerald-300';
             case 'job': return 'bg-pink-100 text-pink-700 border-pink-300';

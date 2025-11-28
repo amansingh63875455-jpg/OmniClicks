@@ -190,10 +190,10 @@ async function fetchFeed(url: string, source: string, category: NewsItem['catego
                 .replace(/\s+/g, ' ')
                 .trim();
 
-            // Limit to 100 words for initial snippet
+            // Limit to 50 words for initial snippet
             const words = cleanContent.split(/\s+/);
-            const limitedWords = words.slice(0, 100);
-            const snippet = limitedWords.join(' ') + (words.length > 100 ? '...' : '');
+            const limitedWords = words.slice(0, 50);
+            const snippet = limitedWords.join(' ') + (words.length > 50 ? '...' : '');
 
             let pubDate = item.pubDate ? new Date(item.pubDate) : new Date();
             if (pubDate.getTime() > Date.now()) pubDate = new Date();
