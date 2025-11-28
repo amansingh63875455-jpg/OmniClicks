@@ -51,22 +51,24 @@ export default function SwipeFeed({ initialNews }: SwipeFeedProps) {
     }, []);
 
     return (
-        <div className="relative h-screen w-screen overflow-hidden">
+        <div className="relative h-screen w-screen overflow-hidden flex flex-col">
             {/* Paper texture background */}
             <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
                 style={{ backgroundImage: 'url(/paper-texture.png)' }}
             />
 
-            {/* Logo overlay - fixed at top */}
-            <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-slate-300">
-                <Logo />
+            {/* Logo header - Static at top left */}
+            <div className="relative z-10 w-full shrink-0 p-4 pointer-events-none">
+                <div className="inline-block bg-white/80 backdrop-blur-sm border border-slate-300 rounded-md shadow-sm p-1 pointer-events-auto">
+                    <Logo />
+                </div>
             </div>
 
-            {/* Feed Container */}
+            {/* Feed Container - Takes remaining space */}
             <div
                 ref={containerRef}
-                className="h-full w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar pt-56"
+                className="relative z-10 flex-1 w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar"
                 style={{ scrollSnapType: 'y mandatory' }}
             >
                 {initialNews.map((item, index) => (

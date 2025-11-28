@@ -4,19 +4,19 @@ import React from 'react';
 
 export default function Logo() {
     return (
-        <div className="flex flex-col items-center justify-center py-4">
+        <div className="flex flex-col items-start justify-center py-1 px-2">
             {/* Main Logo Text */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-slate-900 tracking-tight">
+            <h1 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 tracking-tight">
                 OmniClicks
             </h1>
 
             {/* Subtitle with handwritten style */}
-            <div className="relative mt-2">
-                <p className="text-2xl md:text-3xl font-['Caveat',cursive] text-blue-700 relative">
+            <div className="relative mt-0.5">
+                <p className="text-sm md:text-base font-['Caveat',cursive] text-blue-700 relative">
                     FinTech News
                     {/* Circle/underline effect */}
                     <svg
-                        className="absolute -inset-2 w-[calc(100%+1rem)] h-[calc(100%+1rem)]"
+                        className="absolute -inset-1 w-[calc(100%+0.5rem)] h-[calc(100%+0.5rem)]"
                         viewBox="0 0 200 60"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
