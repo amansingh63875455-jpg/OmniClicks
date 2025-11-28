@@ -3,7 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { NewsItem } from '@/lib/rss';
 import NewsCard from './NewsCard';
-
+import Logo from './Logo';
 import { ChevronDown } from 'lucide-react';
 
 interface SwipeFeedProps {
@@ -39,29 +39,34 @@ export default function SwipeFeed({ initialNews }: SwipeFeedProps) {
 
             if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
                 e.preventDefault();
-                containerRef.current.scrollTo({
-                    top: (activeIndex + 1) * height,
-                    behavior: 'smooth'
-                });
+                containerRef.current.scrollBy({ top: height, behavior: 'smooth' });
             } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
                 e.preventDefault();
-                containerRef.current.scrollTo({
-                    top: (activeIndex - 1) * height,
-                    behavior: 'smooth'
-                });
+                containerRef.current.scrollBy({ top: -height, behavior: 'smooth' });
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [activeIndex]);
+    }, []);
 
     return (
-        <div className="relative h-screen w-full bg-slate-950 overflow-hidden">
+        <div className="relative h-screen w-screen overflow-hidden">
+            {/* Paper texture background */}
+            <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: 'url(/paper-texture.png)' }}
+            />
+
+            {/* Logo overlay - fixed at top */}
+            <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-slate-300">
+                <Logo />
+            </div>
+
             {/* Feed Container */}
             <div
                 ref={containerRef}
-                className="h-full w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar"
+                className="h-full w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar pt-32"
                 style={{ scrollSnapType: 'y mandatory' }}
             >
                 {initialNews.map((item, index) => (
@@ -73,9 +78,9 @@ export default function SwipeFeed({ initialNews }: SwipeFeedProps) {
                 ))}
 
                 {/* End of feed message */}
-                <div className="h-full w-full flex items-center justify-center snap-start bg-slate-950 p-4">
+                <div className="h-full w-full flex items-center justify-center snap-start p-4">
                     <div className="w-full max-w-2xl h-full overflow-y-auto py-10 no-scrollbar flex flex-col items-center justify-center">
-                        <div className="text-center mt-8 mb-20 text-slate-500">
+                        <div className="text-center mt-8 mb-20 text-slate-700">
                             <p className="text-xl font-medium mb-2">You're all caught up!</p>
                             <p className="text-sm">Check back later for more updates.</p>
                         </div>
@@ -85,7 +90,7 @@ export default function SwipeFeed({ initialNews }: SwipeFeedProps) {
 
             {/* Floating Navigation Hint (only on first item) */}
             {activeIndex === 0 && (
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-slate-500 pointer-events-none z-50">
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-slate-700 pointer-events-none z-50">
                     <div className="flex flex-col items-center gap-2">
                         <span className="text-xs uppercase tracking-widest opacity-70">Swipe Up</span>
                         <ChevronDown className="w-6 h-6" />
