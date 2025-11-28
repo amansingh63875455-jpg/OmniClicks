@@ -55,6 +55,12 @@ const FEEDS = {
         { url: 'https://www.entrepreneur.com/topic/fintech.rss', source: 'Entrepreneur Fintech' },
         { url: 'https://techcrunch.com/category/fintech/feed/', source: 'TechCrunch Fintech' },
 
+        // Indian FinTech
+        { url: 'https://inc42.com/category/fintech/feed/', source: 'Inc42 Fintech' },
+        { url: 'https://entrackr.com/feed/', source: 'Entrackr' },
+        { url: 'https://yourstory.com/feed', source: 'YourStory Fintech' },
+        { url: 'https://www.livemint.com/rss/industry/banking', source: 'LiveMint Banking' },
+
         // Global Business
 
         // Additional Quality Sources
@@ -135,6 +141,19 @@ const HISTORY_DB: Record<string, { title: string; year: string; description: str
         { title: 'Revolut Launched', year: '2015', description: 'Revolut was launched in the UK as a digital banking alternative offering multi‑currency accounts, cryptocurrency trading, and budgeting tools. The fintech unicorn expanded rapidly across Europe and beyond.', link: 'https://www.forbes.com/sites/davidschwartz/2021/07/15/revolut-becomes-uks-most-valuable-fintech-at-33-billion-valuation/', source: 'Forbes' },
         { title: 'Wise (TransferWise) Founded', year: '2011', description: 'Wise was founded to provide transparent international money transfers at the real exchange rate. The company disrupted traditional banks by offering significantly lower fees for cross‑border payments.', link: 'https://www.bbc.com/news/business-57766763', source: 'BBC News' },
         { title: 'Plaid Founded', year: '2013', description: "Plaid was founded to connect fintech applications to users' bank accounts securely. The company's API infrastructure powers thousands of financial apps, enabling seamless data sharing between banks and third‑party services.", link: 'https://www.forbes.com/sites/jeffkauflin/2020/01/13/visa-is-buying-fintech-startup-plaid-for-53-billion/', source: 'Forbes' },
+    ],
+    '11-08': [
+        { title: 'Demonetization in India', year: '2016', description: 'The Government of India announced the demonetization of ₹500 and ₹1000 banknotes, triggering a massive surge in digital payments adoption across the country.', link: 'https://www.bbc.com/news/world-asia-india-37974423', source: 'BBC News' },
+    ],
+    '04-11': [
+        { title: 'UPI Launched', year: '2016', description: 'National Payments Corporation of India (NPCI) launched the Unified Payments Interface (UPI), revolutionizing real-time digital payments in India.', link: 'https://www.npci.org.in/what-we-do/upi/product-overview', source: 'NPCI' },
+    ],
+    '08-01': [
+        { title: 'Paytm Founded', year: '2010', description: 'Vijay Shekhar Sharma founded Paytm as a prepaid mobile recharge website, which later evolved into India\'s leading digital payments and financial services company.', link: 'https://paytm.com/about-us/', source: 'Paytm' },
+    ],
+    '12-01': [
+        { title: 'PhonePe Founded', year: '2015', description: 'Sameer Nigam, Rahul Chari, and Burzin Engineer founded PhonePe, which became the first payment app built on UPI to cross 10 million downloads.', link: 'https://www.phonepe.com/about-us/', source: 'PhonePe' },
+        { title: 'RBI Launches Digital Rupee', year: '2022', description: 'The Reserve Bank of India launched the first pilot for the Digital Rupee (e₹-R), marking a significant step towards a Central Bank Digital Currency (CBDC).', link: 'https://rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=54616', source: 'RBI' },
     ],
     '12-12': [
         { title: 'Apple IPO', year: '1980', description: 'Apple Computer went public at $22 per share, creating instant millionaires among employees and early investors. The IPO was one of the most successful in history at the time.', link: 'https://www.history.com/this-day-in-history/apple-goes-public', source: 'History.com' },
@@ -228,13 +247,30 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
         });
     });
 
-    // 3. Build feed with 5:3 ratio (Latest News : Historical News)
-    // Target: 30 latest news, 18 historical news, 2 research papers = 50 total
-    const latestNews = newsResults.flat().sort(() => 0.5 - Math.random()).slice(0, 30);
-    const historicalNews = allHistoryEvents.sort(() => 0.5 - Math.random()).slice(0, 18);
+    // 3. Flatten and categorize news
+    const allNews = newsResults.flat();
+    const indianSources = ['Inc42 Fintech', 'Entrackr', 'YourStory Fintech', 'LiveMint Banking'];
+
+    const indianNews = allNews.filter(n => indianSources.includes(n.source));
+    const globalNews = allNews.filter(n => !indianSources.includes(n.source));
+
+    // 4. Categorize history
+    const indianHistoryKeywords = ['India', 'Paytm', 'PhonePe', 'UPI', 'RBI', 'Rupee'];
+    const indianHistory = allHistoryEvents.filter(h => indianHistoryKeywords.some(k => h.title.includes(k) || h.contentSnippet.includes(k)));
+    const globalHistory = allHistoryEvents.filter(h => !indianHistoryKeywords.some(k => h.title.includes(k) || h.contentSnippet.includes(k)));
+
+    // 5. Build balanced feed
+    // Target: 15 Global News, 15 Indian News
+    // Target: 9 Global History, 9 Indian History
+    const selectedGlobalNews = globalNews.sort(() => 0.5 - Math.random()).slice(0, 15);
+    const selectedIndianNews = indianNews.sort(() => 0.5 - Math.random()).slice(0, 15);
+
+    const selectedGlobalHistory = globalHistory.sort(() => 0.5 - Math.random()).slice(0, 9);
+    const selectedIndianHistory = indianHistory.sort(() => 0.5 - Math.random()).slice(0, 9);
+
     const researchPapers = researchResults.flat().sort(() => 0.5 - Math.random()).slice(0, 2);
 
-    // 4. Get Terminology items
+    // 6. Get Terminology items
     const terminologyItems: NewsItem[] = TERMINOLOGY_DB.map(t => ({
         title: `${t.term} (${t.category})`,
         link: t.link || '#',
@@ -242,25 +278,27 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
         contentSnippet: t.definition,
         source: t.source || 'FinTech Terminology',
         category: 'terminology' as const
-    })).sort(() => 0.5 - Math.random()).slice(0, 5); // Take 5 random terms
+    })).sort(() => 0.5 - Math.random()).slice(0, 5);
 
-    // 5. Combine and shuffle
+    // 7. Combine all items
     let allItems: NewsItem[] = [
-        ...latestNews,
-        ...historicalNews,
+        ...selectedGlobalNews,
+        ...selectedIndianNews,
+        ...selectedGlobalHistory,
+        ...selectedIndianHistory,
         ...researchPapers,
         ...terminologyItems
     ];
 
-    // Shuffle everything
+    // 8. Shuffle everything
     for (let i = allItems.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [allItems[i], allItems[j]] = [allItems[j], allItems[i]];
     }
 
-    // 5. Generate AI Summaries for the top 3 items to ensure fast initial load
+    // 9. Generate AI Summaries for the top 3 items
     for (let i = 0; i < 3; i++) {
-        if (allItems[i] && allItems[i].category !== 'history') { // History already has good descriptions
+        if (allItems[i] && allItems[i].category !== 'history') {
             try {
                 const summary = await generateSummary(allItems[i].link, allItems[i].title, allItems[i].contentSnippet);
                 allItems[i].contentSnippet = summary;
