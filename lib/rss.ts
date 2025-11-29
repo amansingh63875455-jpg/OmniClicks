@@ -46,24 +46,6 @@ const FEEDS: { news: FeedConfig[]; hackathon: { url: string; source: string }[];
         { url: 'https://www.reuters.com/finance/rss', source: 'Reuters Finance', topic: 'finance' },
         { url: 'https://www.marketwatch.com/rss/', source: 'MarketWatch', topic: 'finance' },
         { url: 'https://finance.yahoo.com/rss/', source: 'Yahoo Finance', topic: 'finance' },
-        { url: 'https://seekingalpha.com/feed.xml', source: 'Seeking Alpha', topic: 'finance' },
-        { url: 'https://www.fool.com/rss/index.aspx', source: 'Motley Fool', topic: 'finance' },
-        { url: 'https://www.bloomberg.com/feed/podcast/etf-report.xml', source: 'Bloomberg', topic: 'finance' }, // Using podcast feed as main RSS is restricted often, or fallback to other reliable ones
-        { url: 'https://www.ft.com/?format=rss', source: 'Financial Times', topic: 'finance' },
-
-        // --- TECHNOLOGY ---
-        { url: 'https://www.theverge.com/rss/index.xml', source: 'The Verge', topic: 'tech' },
-        { url: 'https://www.wired.com/feed/rss', source: 'Wired', topic: 'tech' },
-        { url: 'https://techcrunch.com/feed/', source: 'TechCrunch', topic: 'tech' },
-        { url: 'https://arstechnica.com/feed/', source: 'Ars Technica', topic: 'tech' },
-        { url: 'https://www.engadget.com/rss.xml', source: 'Engadget', topic: 'tech' },
-        { url: 'https://mashable.com/feed', source: 'Mashable', topic: 'tech' },
-        { url: 'https://venturebeat.com/feed/', source: 'VentureBeat', topic: 'tech' },
-        { url: 'https://readwrite.com/feed/', source: 'ReadWrite', topic: 'tech' },
-
-        // Crypto (Categorized as Fintech/Finance Hybrid, putting in Fintech for now or separate? Let's keep in Fintech for simplicity or mix)
-        { url: 'https://www.coindesk.com/arc/outboundfeeds/rss/', source: 'CoinDesk', topic: 'fintech' },
-        { url: 'https://cointelegraph.com/rss', source: 'CoinTelegraph', topic: 'fintech' },
     ],
     hackathon: [
         { url: 'https://dev.to/feed/tag/hackathon', source: 'Dev.to' },
