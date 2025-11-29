@@ -9,6 +9,7 @@ export interface NewsItem {
     contentSnippet: string;
     source: string;
     category: 'news' | 'history' | 'hackathon' | 'job' | 'research' | 'terminology';
+    topic?: 'fintech' | 'finance' | 'tech';
 }
 
 const parser = new Parser({
@@ -17,58 +18,52 @@ const parser = new Parser({
     },
 });
 
-const FEEDS = {
+interface FeedConfig {
+    url: string;
+    source: string;
+    topic: 'fintech' | 'finance' | 'tech';
+}
+
+const FEEDS: { news: FeedConfig[]; hackathon: { url: string; source: string }[]; job: { url: string; source: string }[]; research: { url: string; source: string }[] } = {
     news: [
-        // Fintech & Finance
-        { url: 'https://techcrunch.com/category/fintech/feed/', source: 'TechCrunch' },
-        { url: 'https://www.finextra.com/rss/headlines.aspx', source: 'Finextra' },
-        { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664', source: 'CNBC Finance' },
-        { url: 'https://www.investing.com/rss/news_25.rss', source: 'Investing.com' },
-        { url: 'https://www.reuters.com/finance/rss', source: 'Reuters' },
-        { url: 'https://www.forbes.com/fintech/feed/', source: 'Forbes' },
-        { url: 'https://www.marketwatch.com/rss/', source: 'MarketWatch' },
-        { url: 'https://finance.yahoo.com/rss/', source: 'Yahoo Finance' },
-        { url: 'https://seekingalpha.com/feed.xml', source: 'Seeking Alpha' },
-        { url: 'https://www.fool.com/rss/index.aspx', source: 'Motley Fool' },
+        // --- FINTECH ---
+        { url: 'https://techcrunch.com/category/fintech/feed/', source: 'TechCrunch Fintech', topic: 'fintech' },
+        { url: 'https://www.finextra.com/rss/headlines.aspx', source: 'Finextra', topic: 'fintech' },
+        { url: 'https://www.forbes.com/fintech/feed/', source: 'Forbes Fintech', topic: 'fintech' },
+        { url: 'https://www.pymnts.com/feed/', source: 'PYMNTS', topic: 'fintech' },
+        { url: 'https://thefinancialbrand.com/feed/', source: 'The Financial Brand', topic: 'fintech' },
+        { url: 'https://www.paymentsjournal.com/feed/', source: 'Payments Journal', topic: 'fintech' },
+        { url: 'https://news.crunchbase.com/sections/fintech-commerce/feed/', source: 'Crunchbase Fintech', topic: 'fintech' },
+        // Indian Fintech
+        { url: 'https://inc42.com/category/fintech/feed/', source: 'Inc42 Fintech', topic: 'fintech' },
+        { url: 'https://entrackr.com/feed/', source: 'Entrackr', topic: 'fintech' },
+        { url: 'https://yourstory.com/feed', source: 'YourStory Fintech', topic: 'fintech' },
+        { url: 'https://www.livemint.com/rss/industry/banking', source: 'LiveMint Banking', topic: 'fintech' },
 
-        // Crypto & Blockchain
-        { url: 'https://www.coindesk.com/arc/outboundfeeds/rss/', source: 'CoinDesk' },
-        { url: 'https://cointelegraph.com/rss', source: 'CoinTelegraph' },
-        { url: 'https://www.theblockcrypto.com/rss.xml', source: 'The Block' },
-        { url: 'https://decrypt.co/feed', source: 'Decrypt' },
-        { url: 'https://bitcoinmagazine.com/.rss/full/', source: 'Bitcoin Magazine' },
-        { url: 'https://cryptobriefing.com/feed/', source: 'Crypto Briefing' },
-        { url: 'https://cryptonews.com/news/feed/', source: 'CryptoNews' },
-        { url: 'https://www.coinbureau.com/feed/', source: 'Coin Bureau' },
+        // --- FINANCE ---
+        { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664', source: 'CNBC Finance', topic: 'finance' },
+        { url: 'https://www.investing.com/rss/news_25.rss', source: 'Investing.com', topic: 'finance' },
+        { url: 'https://www.reuters.com/finance/rss', source: 'Reuters Finance', topic: 'finance' },
+        { url: 'https://www.marketwatch.com/rss/', source: 'MarketWatch', topic: 'finance' },
+        { url: 'https://finance.yahoo.com/rss/', source: 'Yahoo Finance', topic: 'finance' },
+        { url: 'https://seekingalpha.com/feed.xml', source: 'Seeking Alpha', topic: 'finance' },
+        { url: 'https://www.fool.com/rss/index.aspx', source: 'Motley Fool', topic: 'finance' },
+        { url: 'https://www.bloomberg.com/feed/podcast/etf-report.xml', source: 'Bloomberg', topic: 'finance' }, // Using podcast feed as main RSS is restricted often, or fallback to other reliable ones
+        { url: 'https://www.ft.com/?format=rss', source: 'Financial Times', topic: 'finance' },
 
-        // Tech & Business (Fintech Focused)
-        { url: 'https://venturebeat.com/category/fintech/feed/', source: 'VentureBeat Fintech' },
-        { url: 'https://www.forbes.com/fintech/feed/', source: 'Forbes Fintech' },
+        // --- TECHNOLOGY ---
+        { url: 'https://www.theverge.com/rss/index.xml', source: 'The Verge', topic: 'tech' },
+        { url: 'https://www.wired.com/feed/rss', source: 'Wired', topic: 'tech' },
+        { url: 'https://techcrunch.com/feed/', source: 'TechCrunch', topic: 'tech' },
+        { url: 'https://arstechnica.com/feed/', source: 'Ars Technica', topic: 'tech' },
+        { url: 'https://www.engadget.com/rss.xml', source: 'Engadget', topic: 'tech' },
+        { url: 'https://mashable.com/feed', source: 'Mashable', topic: 'tech' },
+        { url: 'https://venturebeat.com/feed/', source: 'VentureBeat', topic: 'tech' },
+        { url: 'https://readwrite.com/feed/', source: 'ReadWrite', topic: 'tech' },
 
-        // Payment & Banking
-        { url: 'https://www.pymnts.com/feed/', source: 'PYMNTS' },
-        { url: 'https://thefinancialbrand.com/feed/', source: 'The Financial Brand' },
-        { url: 'https://www.paymentsjournal.com/feed/', source: 'Payments Journal' },
-
-        // Venture & Startups
-        { url: 'https://news.crunchbase.com/sections/fintech-commerce/feed/', source: 'Crunchbase Fintech' },
-        { url: 'https://www.entrepreneur.com/topic/fintech.rss', source: 'Entrepreneur Fintech' },
-        { url: 'https://techcrunch.com/category/fintech/feed/', source: 'TechCrunch Fintech' },
-
-        // Indian FinTech
-        { url: 'https://inc42.com/category/fintech/feed/', source: 'Inc42 Fintech' },
-        { url: 'https://entrackr.com/feed/', source: 'Entrackr' },
-        { url: 'https://yourstory.com/feed', source: 'YourStory Fintech' },
-        { url: 'https://www.livemint.com/rss/industry/banking', source: 'LiveMint Banking' },
-
-        // Global Business
-
-        // Additional Quality Sources
-        { url: 'https://www.axios.com/feeds/feed.rss', source: 'Axios' },
-        { url: 'https://www.benzinga.com/feed', source: 'Benzinga' },
-        { url: 'https://www.investopedia.com/feedbuilder/feed/getfeed?feedName=rss_headline', source: 'Investopedia' },
-        { url: 'https://www.nasdaq.com/feed/rssoutbound', source: 'Nasdaq' },
-        { url: 'https://www.morningstar.com/rss/news.xml', source: 'Morningstar' },
+        // Crypto (Categorized as Fintech/Finance Hybrid, putting in Fintech for now or separate? Let's keep in Fintech for simplicity or mix)
+        { url: 'https://www.coindesk.com/arc/outboundfeeds/rss/', source: 'CoinDesk', topic: 'fintech' },
+        { url: 'https://cointelegraph.com/rss', source: 'CoinTelegraph', topic: 'fintech' },
     ],
     hackathon: [
         { url: 'https://dev.to/feed/tag/hackathon', source: 'Dev.to' },
@@ -133,7 +128,7 @@ const HISTORY_DB: Record<string, { title: string; year: string; description: str
 /**
  * Fetch a feed and normalize each item.
  */
-async function fetchFeed(url: string, source: string, category: NewsItem['category']): Promise<NewsItem[]> {
+async function fetchFeed(url: string, source: string, category: NewsItem['category'], topic?: NewsItem['topic']): Promise<NewsItem[]> {
     console.log(`Fetching ${source} from ${url}...`);
     try {
         const res = await Promise.race([
@@ -172,6 +167,7 @@ async function fetchFeed(url: string, source: string, category: NewsItem['catego
                 contentSnippet: snippet || 'No description available.',
                 source,
                 category,
+                topic
             } as NewsItem;
         });
     } catch (e) {
@@ -182,11 +178,11 @@ async function fetchFeed(url: string, source: string, category: NewsItem['catego
 
 /**
  * Get unified news feed for Inshorts-style display.
- * Prioritizes latest news and historical news with a 5:3 ratio.
+ * Prioritizes balanced content between Fintech, Finance, and Tech.
  */
 export async function getUnifiedNews(): Promise<NewsItem[]> {
     // 1. Fetch all feeds in parallel
-    const newsPromises = FEEDS.news.map(f => fetchFeed(f.url, f.source, 'news'));
+    const newsPromises = FEEDS.news.map(f => fetchFeed(f.url, f.source, 'news', f.topic));
     const hackathonPromises = FEEDS.hackathon.map(f => fetchFeed(f.url, f.source, 'hackathon'));
     const researchPromises = FEEDS.research.map(f => fetchFeed(f.url, f.source, 'research'));
 
@@ -214,26 +210,26 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
         });
     });
 
-    // 3. Flatten and categorize news
+    // 3. Flatten and categorize news by Topic
     const allNews = newsResults.flat();
-    const indianSources = ['Inc42 Fintech', 'Entrackr', 'YourStory Fintech', 'LiveMint Banking'];
 
-    const indianNews = allNews.filter(n => indianSources.includes(n.source));
-    const globalNews = allNews.filter(n => !indianSources.includes(n.source));
+    const fintechNews = allNews.filter(n => n.topic === 'fintech');
+    const financeNews = allNews.filter(n => n.topic === 'finance');
+    const techNews = allNews.filter(n => n.topic === 'tech');
 
-    // 4. Categorize history
+    // 4. Select balanced mix
+    // Target: 5 Fintech, 5 Finance, 5 Tech (Total 15 News)
+    const selectedFintech = fintechNews.sort(() => 0.5 - Math.random()).slice(0, 5);
+    const selectedFinance = financeNews.sort(() => 0.5 - Math.random()).slice(0, 5);
+    const selectedTech = techNews.sort(() => 0.5 - Math.random()).slice(0, 5);
+
+    // 5. Categorize history (Keep existing logic for now, or balance if needed. User asked for News balance specifically)
     const indianHistoryKeywords = ['India', 'Paytm', 'PhonePe', 'UPI', 'RBI', 'Rupee', 'NPCI', 'IMPS', 'Aadhaar', 'RuPay', 'UIDAI'];
     const indianHistory = allHistoryEvents.filter(h => indianHistoryKeywords.some(k => h.title.includes(k) || h.contentSnippet.includes(k)));
     const globalHistory = allHistoryEvents.filter(h => !indianHistoryKeywords.some(k => h.title.includes(k) || h.contentSnippet.includes(k)));
 
-    // 5. Build balanced feed
-    // Target: 15 Global News, 15 Indian News
-    // Target: 9 Global History, 9 Indian History
-    const selectedGlobalNews = globalNews.sort(() => 0.5 - Math.random()).slice(0, 15);
-    const selectedIndianNews = indianNews.sort(() => 0.5 - Math.random()).slice(0, 15);
-
-    const selectedGlobalHistory = globalHistory.sort(() => 0.5 - Math.random()).slice(0, 9);
-    const selectedIndianHistory = indianHistory.sort(() => 0.5 - Math.random()).slice(0, 9);
+    const selectedGlobalHistory = globalHistory.sort(() => 0.5 - Math.random()).slice(0, 4);
+    const selectedIndianHistory = indianHistory.sort(() => 0.5 - Math.random()).slice(0, 4);
 
     const researchPapers = researchResults.flat().sort(() => 0.5 - Math.random()).slice(0, 2);
 
@@ -249,8 +245,9 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
 
     // 7. Combine all items
     let allItems: NewsItem[] = [
-        ...selectedGlobalNews,
-        ...selectedIndianNews,
+        ...selectedFintech,
+        ...selectedFinance,
+        ...selectedTech,
         ...selectedGlobalHistory,
         ...selectedIndianHistory,
         ...researchPapers,
@@ -282,3 +279,4 @@ export async function getNews() { return []; } // Deprecated
 export async function getHackathons() { return []; } // Deprecated
 export async function getJobs() { return []; } // Deprecated
 export async function getHistory() { return []; } // Deprecated
+
