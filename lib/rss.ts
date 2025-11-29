@@ -10,6 +10,7 @@ export interface NewsItem {
     source: string;
     category: 'news' | 'history' | 'hackathon' | 'job' | 'research' | 'terminology';
     topic?: 'fintech' | 'finance' | 'tech';
+    region?: 'india' | 'global';
 }
 
 const parser = new Parser({
@@ -22,30 +23,61 @@ interface FeedConfig {
     url: string;
     source: string;
     topic: 'fintech' | 'finance' | 'tech';
+    region: 'india' | 'global';
 }
 
 const FEEDS: { news: FeedConfig[]; hackathon: { url: string; source: string }[]; job: { url: string; source: string }[]; research: { url: string; source: string }[] } = {
     news: [
-        // --- FINTECH ---
-        { url: 'https://techcrunch.com/category/fintech/feed/', source: 'TechCrunch Fintech', topic: 'fintech' },
-        { url: 'https://www.finextra.com/rss/headlines.aspx', source: 'Finextra', topic: 'fintech' },
-        { url: 'https://www.forbes.com/fintech/feed/', source: 'Forbes Fintech', topic: 'fintech' },
-        { url: 'https://www.pymnts.com/feed/', source: 'PYMNTS', topic: 'fintech' },
-        { url: 'https://thefinancialbrand.com/feed/', source: 'The Financial Brand', topic: 'fintech' },
-        { url: 'https://www.paymentsjournal.com/feed/', source: 'Payments Journal', topic: 'fintech' },
-        { url: 'https://news.crunchbase.com/sections/fintech-commerce/feed/', source: 'Crunchbase Fintech', topic: 'fintech' },
-        // Indian Fintech
-        { url: 'https://inc42.com/category/fintech/feed/', source: 'Inc42 Fintech', topic: 'fintech' },
-        { url: 'https://entrackr.com/feed/', source: 'Entrackr', topic: 'fintech' },
-        { url: 'https://yourstory.com/feed', source: 'YourStory Fintech', topic: 'fintech' },
-        { url: 'https://www.livemint.com/rss/industry/banking', source: 'LiveMint Banking', topic: 'fintech' },
+        // --- FINTECH (GLOBAL) ---
+        { url: 'https://techcrunch.com/category/fintech/feed/', source: 'TechCrunch Fintech', topic: 'fintech', region: 'global' },
+        { url: 'https://www.finextra.com/rss/headlines.aspx', source: 'Finextra', topic: 'fintech', region: 'global' },
+        { url: 'https://www.forbes.com/fintech/feed/', source: 'Forbes Fintech', topic: 'fintech', region: 'global' },
+        { url: 'https://www.pymnts.com/feed/', source: 'PYMNTS', topic: 'fintech', region: 'global' },
+        { url: 'https://thefinancialbrand.com/feed/', source: 'The Financial Brand', topic: 'fintech', region: 'global' },
+        { url: 'https://news.crunchbase.com/sections/fintech-commerce/feed/', source: 'Crunchbase Fintech', topic: 'fintech', region: 'global' },
 
-        // --- FINANCE ---
-        { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664', source: 'CNBC Finance', topic: 'finance' },
-        { url: 'https://www.investing.com/rss/news_25.rss', source: 'Investing.com', topic: 'finance' },
-        { url: 'https://www.reuters.com/finance/rss', source: 'Reuters Finance', topic: 'finance' },
-        { url: 'https://www.marketwatch.com/rss/', source: 'MarketWatch', topic: 'finance' },
-        { url: 'https://finance.yahoo.com/rss/', source: 'Yahoo Finance', topic: 'finance' },
+        // --- FINTECH (INDIA) ---
+        { url: 'https://inc42.com/category/fintech/feed/', source: 'Inc42 Fintech', topic: 'fintech', region: 'india' },
+        { url: 'https://entrackr.com/feed/', source: 'Entrackr', topic: 'fintech', region: 'india' },
+        { url: 'https://yourstory.com/feed', source: 'YourStory Fintech', topic: 'fintech', region: 'india' },
+        { url: 'https://www.livemint.com/rss/industry/banking', source: 'LiveMint Banking', topic: 'fintech', region: 'india' },
+
+        // --- FINANCE (GLOBAL) ---
+        { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664', source: 'CNBC Finance', topic: 'finance', region: 'global' },
+        { url: 'https://www.investing.com/rss/news_25.rss', source: 'Investing.com', topic: 'finance', region: 'global' },
+        { url: 'https://www.reuters.com/finance/rss', source: 'Reuters Finance', topic: 'finance', region: 'global' },
+        { url: 'https://www.marketwatch.com/rss/', source: 'MarketWatch', topic: 'finance', region: 'global' },
+        { url: 'https://finance.yahoo.com/rss/', source: 'Yahoo Finance', topic: 'finance', region: 'global' },
+        { url: 'https://seekingalpha.com/feed.xml', source: 'Seeking Alpha', topic: 'finance', region: 'global' },
+        { url: 'https://www.fool.com/rss/index.aspx', source: 'Motley Fool', topic: 'finance', region: 'global' },
+        { url: 'https://www.ft.com/?format=rss', source: 'Financial Times', topic: 'finance', region: 'global' },
+
+        // --- FINANCE (INDIA) ---
+        { url: 'https://www.moneycontrol.com/rss/MCtopnews.xml', source: 'MoneyControl', topic: 'finance', region: 'india' },
+        { url: 'https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms', source: 'Economic Times Markets', topic: 'finance', region: 'india' },
+        { url: 'https://www.livemint.com/rss/money', source: 'LiveMint Money', topic: 'finance', region: 'india' },
+        { url: 'https://www.business-standard.com/rss/finance-103.rss', source: 'Business Standard', topic: 'finance', region: 'india' },
+
+        // --- TECHNOLOGY (GLOBAL) ---
+        { url: 'https://gizmodo.com/rss', source: 'Gizmodo', topic: 'tech', region: 'global' },
+        { url: 'https://www.zdnet.com/news/rss.xml', source: 'ZDNet', topic: 'tech', region: 'global' },
+        { url: 'https://www.cnet.com/rss/news/', source: 'CNET', topic: 'tech', region: 'global' },
+        { url: 'https://techcrunch.com/feed/', source: 'TechCrunch', topic: 'tech', region: 'global' },
+        { url: 'https://arstechnica.com/feed/', source: 'Ars Technica', topic: 'tech', region: 'global' },
+        { url: 'https://www.engadget.com/rss.xml', source: 'Engadget', topic: 'tech', region: 'global' },
+        { url: 'https://mashable.com/feed', source: 'Mashable', topic: 'tech', region: 'global' },
+        { url: 'https://venturebeat.com/feed/', source: 'VentureBeat', topic: 'tech', region: 'global' },
+        { url: 'https://readwrite.com/feed/', source: 'ReadWrite', topic: 'tech', region: 'global' },
+
+        // --- TECHNOLOGY (INDIA) ---
+        { url: 'https://gadgets360.com/rss/news', source: 'Gadgets360', topic: 'tech', region: 'india' },
+        { url: 'https://indianexpress.com/section/technology/feed/', source: 'Indian Express Tech', topic: 'tech', region: 'india' },
+        { url: 'https://inc42.com/category/buzz/feed/', source: 'Inc42 Tech', topic: 'tech', region: 'india' },
+        { url: 'https://www.livemint.com/rss/technology', source: 'LiveMint Tech', topic: 'tech', region: 'india' },
+
+        // Crypto (Categorized as Fintech/Finance Hybrid, putting in Fintech for now)
+        { url: 'https://www.coindesk.com/arc/outboundfeeds/rss/', source: 'CoinDesk', topic: 'fintech', region: 'global' },
+        { url: 'https://cointelegraph.com/rss', source: 'CoinTelegraph', topic: 'fintech', region: 'global' },
     ],
     hackathon: [
         { url: 'https://dev.to/feed/tag/hackathon', source: 'Dev.to' },
@@ -110,7 +142,7 @@ const HISTORY_DB: Record<string, { title: string; year: string; description: str
 /**
  * Fetch a feed and normalize each item.
  */
-async function fetchFeed(url: string, source: string, category: NewsItem['category'], topic?: NewsItem['topic']): Promise<NewsItem[]> {
+async function fetchFeed(url: string, source: string, category: NewsItem['category'], topic?: NewsItem['topic'], region?: NewsItem['region']): Promise<NewsItem[]> {
     console.log(`Fetching ${source} from ${url}...`);
     try {
         const res = await Promise.race([
@@ -149,7 +181,8 @@ async function fetchFeed(url: string, source: string, category: NewsItem['catego
                 contentSnippet: snippet || 'No description available.',
                 source,
                 category,
-                topic
+                topic,
+                region
             } as NewsItem;
         });
     } catch (e) {
@@ -160,11 +193,11 @@ async function fetchFeed(url: string, source: string, category: NewsItem['catego
 
 /**
  * Get unified news feed for Inshorts-style display.
- * Prioritizes balanced content between Fintech, Finance, and Tech.
+ * Prioritizes balanced content between Fintech, Finance, and Tech, with Regional balance.
  */
 export async function getUnifiedNews(): Promise<NewsItem[]> {
     // 1. Fetch all feeds in parallel
-    const newsPromises = FEEDS.news.map(f => fetchFeed(f.url, f.source, 'news', f.topic));
+    const newsPromises = FEEDS.news.map(f => fetchFeed(f.url, f.source, 'news', f.topic, f.region));
     const hackathonPromises = FEEDS.hackathon.map(f => fetchFeed(f.url, f.source, 'hackathon'));
     const researchPromises = FEEDS.research.map(f => fetchFeed(f.url, f.source, 'research'));
 
@@ -192,20 +225,39 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
         });
     });
 
-    // 3. Flatten and categorize news by Topic
+    // 3. Flatten and categorize news by Topic and Region
     const allNews = newsResults.flat();
 
-    const fintechNews = allNews.filter(n => n.topic === 'fintech');
-    const financeNews = allNews.filter(n => n.topic === 'finance');
-    const techNews = allNews.filter(n => n.topic === 'tech');
+    const fintechGlobal = allNews.filter(n => n.topic === 'fintech' && n.region === 'global');
+    const fintechIndia = allNews.filter(n => n.topic === 'fintech' && n.region === 'india');
+
+    const financeGlobal = allNews.filter(n => n.topic === 'finance' && n.region === 'global');
+    const financeIndia = allNews.filter(n => n.topic === 'finance' && n.region === 'india');
+
+    const techGlobal = allNews.filter(n => n.topic === 'tech' && n.region === 'global');
+    const techIndia = allNews.filter(n => n.topic === 'tech' && n.region === 'india');
 
     // 4. Select balanced mix
-    // Target: 5 Fintech, 5 Finance, 5 Tech (Total 15 News)
-    const selectedFintech = fintechNews.sort(() => 0.5 - Math.random()).slice(0, 5);
-    const selectedFinance = financeNews.sort(() => 0.5 - Math.random()).slice(0, 5);
-    const selectedTech = techNews.sort(() => 0.5 - Math.random()).slice(0, 5);
+    // Target: 5 items per topic.
+    // Strategy: 2 India + 3 Global (or vice versa, randomized for variety)
 
-    // 5. Categorize history (Keep existing logic for now, or balance if needed. User asked for News balance specifically)
+    const getBalancedSlice = (indiaItems: NewsItem[], globalItems: NewsItem[], total: number) => {
+        const indiaCount = 2; // Guarantee at least 2 Indian items if available
+        const globalCount = total - indiaCount;
+
+        const selectedIndia = indiaItems.sort(() => 0.5 - Math.random()).slice(0, indiaCount);
+        // If we didn't get enough Indian items, fill with Global
+        const remainingNeeded = total - selectedIndia.length;
+        const selectedGlobal = globalItems.sort(() => 0.5 - Math.random()).slice(0, remainingNeeded);
+
+        return [...selectedIndia, ...selectedGlobal];
+    };
+
+    const selectedFintech = getBalancedSlice(fintechIndia, fintechGlobal, 5);
+    const selectedFinance = getBalancedSlice(financeIndia, financeGlobal, 5);
+    const selectedTech = getBalancedSlice(techIndia, techGlobal, 5);
+
+    // 5. Categorize history
     const indianHistoryKeywords = ['India', 'Paytm', 'PhonePe', 'UPI', 'RBI', 'Rupee', 'NPCI', 'IMPS', 'Aadhaar', 'RuPay', 'UIDAI'];
     const indianHistory = allHistoryEvents.filter(h => indianHistoryKeywords.some(k => h.title.includes(k) || h.contentSnippet.includes(k)));
     const globalHistory = allHistoryEvents.filter(h => !indianHistoryKeywords.some(k => h.title.includes(k) || h.contentSnippet.includes(k)));
@@ -261,4 +313,3 @@ export async function getNews() { return []; } // Deprecated
 export async function getHackathons() { return []; } // Deprecated
 export async function getJobs() { return []; } // Deprecated
 export async function getHistory() { return []; } // Deprecated
-
