@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function Logo() {
     return (
-        <div className="flex flex-col items-start justify-center py-1 px-2">
+        <div className="flex flex-col items-center justify-center py-1 px-2">
             {/* Main Logo Text */}
             <h1 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 tracking-tight">
                 OmniClicks

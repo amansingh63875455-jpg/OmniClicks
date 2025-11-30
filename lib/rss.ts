@@ -228,14 +228,20 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
     // 3. Flatten and categorize news by Topic and Region
     const allNews = newsResults.flat();
 
-    const fintechGlobal = allNews.filter(n => n.topic === 'fintech' && n.region === 'global');
-    const fintechIndia = allNews.filter(n => n.topic === 'fintech' && n.region === 'india');
+    // Filter for last 7 days
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const financeGlobal = allNews.filter(n => n.topic === 'finance' && n.region === 'global');
-    const financeIndia = allNews.filter(n => n.topic === 'finance' && n.region === 'india');
+    const recentNews = allNews.filter(n => new Date(n.pubDate) >= sevenDaysAgo);
 
-    const techGlobal = allNews.filter(n => n.topic === 'tech' && n.region === 'global');
-    const techIndia = allNews.filter(n => n.topic === 'tech' && n.region === 'india');
+    const fintechGlobal = recentNews.filter(n => n.topic === 'fintech' && n.region === 'global');
+    const fintechIndia = recentNews.filter(n => n.topic === 'fintech' && n.region === 'india');
+
+    const financeGlobal = recentNews.filter(n => n.topic === 'finance' && n.region === 'global');
+    const financeIndia = recentNews.filter(n => n.topic === 'finance' && n.region === 'india');
+
+    const techGlobal = recentNews.filter(n => n.topic === 'tech' && n.region === 'global');
+    const techIndia = recentNews.filter(n => n.topic === 'tech' && n.region === 'india');
 
     // 4. Select balanced mix
     // Target: 5 items per topic.
@@ -265,7 +271,11 @@ export async function getUnifiedNews(): Promise<NewsItem[]> {
     const selectedGlobalHistory = globalHistory.sort(() => 0.5 - Math.random()).slice(0, 4);
     const selectedIndianHistory = indianHistory.sort(() => 0.5 - Math.random()).slice(0, 4);
 
-    const researchPapers = researchResults.flat().sort(() => 0.5 - Math.random()).slice(0, 2);
+    const researchPapers = researchResults
+        .flat()
+        .filter(n => new Date(n.pubDate) >= sevenDaysAgo)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 2);
 
     // 6. Get Terminology items
     const terminologyItems: NewsItem[] = TERMINOLOGY_DB.map(t => ({
