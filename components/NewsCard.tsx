@@ -55,11 +55,24 @@ export default function NewsCard({ item, isActive }: NewsCardProps) {
     };
 
     return (
-        <div className="h-full w-full flex items-center justify-center p-4 md:p-8 snap-start shrink-0 relative overflow-hidden">
+        <article className="h-full w-full flex items-center justify-center p-4 md:p-8 snap-start shrink-0 relative overflow-hidden">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "NewsArticle",
+                        "headline": item.title,
+                        "datePublished": item.pubDate,
+                        "author": [{ "@type": "Organization", "name": item.source }],
+                        "description": item.contentSnippet
+                    })
+                }}
+            />
             <div className={`relative z-10 w-full max-w-3xl flex flex-col gap-6 transition-all duration-700 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-50 translate-y-8'}`}>
 
                 {/* Header: Source & Date */}
-                <div className="flex items-center justify-between">
+                <header className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryColor(item.category)}`}>
                             {item.category.toUpperCase()}
@@ -68,9 +81,9 @@ export default function NewsCard({ item, isActive }: NewsCardProps) {
                     </div>
                     <div className="flex items-center text-slate-600 text-xs">
                         <Calendar className="w-3 h-3 mr-1.5" />
-                        {dateStr}
+                        <time dateTime={item.pubDate}>{dateStr}</time>
                     </div>
-                </div>
+                </header>
 
                 {/* Title */}
                 <h1 className="text-2xl md:text-4xl lg:text-5xl font-serif font-bold text-slate-900 leading-tight tracking-tight">
@@ -85,7 +98,7 @@ export default function NewsCard({ item, isActive }: NewsCardProps) {
                 </div>
 
                 {/* Footer: Actions */}
-                <div className="pt-6 flex items-center justify-between border-t border-slate-300 mt-4">
+                <footer className="pt-6 flex items-center justify-between border-t border-slate-300 mt-4">
                     <button
                         onClick={handleShare}
                         className="p-2 rounded-full hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition-colors relative group"
@@ -110,8 +123,8 @@ export default function NewsCard({ item, isActive }: NewsCardProps) {
                                     item.category === 'terminology' ? 'Learn More' : 'Read Full Story'}
                         <ExternalLink className="w-4 h-4" />
                     </a>
-                </div>
+                </footer>
             </div>
-        </div>
+        </article>
     );
 }
