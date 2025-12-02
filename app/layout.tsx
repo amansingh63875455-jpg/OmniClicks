@@ -35,6 +35,11 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  keywords: ["FinTech News", "OmniClicks", "Finance News", "Technology News", "Indian FinTech", "Daily Intelligence", "Market History"],
+  authors: [{ name: "OmniClicks Team" }],
+  alternates: {
+    canonical: "https://omni-clicks.vercel.app",
+  },
 };
 
 export const viewport: Viewport = {
@@ -52,6 +57,18 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${caveat.variable} antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "OmniClicks",
+              "url": "https://omni-clicks.vercel.app",
+              "description": "Aggregated news, history, hackathons, and jobs for finance professionals."
+            }),
+          }}
+        />
         {children}
       </body>
     </html>
